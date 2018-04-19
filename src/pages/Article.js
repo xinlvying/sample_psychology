@@ -20,37 +20,18 @@ const instructions = Platform.select({
     'Shake or press menu button for dev menu',
 });
 
-export default class HomePage extends Component {
+export default class Article extends Component {
   render() {
     const { navigation } = this.props;
-    console.log(this.props)
     return (
       <View style={styles.container}>
         <Text style={styles.welcome}>
-          Welcome to HomePage!
+          Welcome to Page1!
         </Text>
         <Button
-          title="Go to Page1"
+          title="Go Back"
           onPress={() => {
-            navigation.navigate('Page1', { name: '动态title' });
-          }}
-        />
-        <Button
-          title="Go to Page2"
-          onPress={() => {
-            navigation.navigate('Page2');
-          }}
-        />
-        <Button
-          title="Go to Page3"
-          onPress={() => {
-            navigation.navigate('Page3', { title: '欢迎Page3' });
-          }}
-        />
-        <Button
-          title="Go to TabNav"
-          onPress={() => {
-            navigation.navigate('TabNav', { title: '欢迎TabNav' });
+            navigation.goBack();
           }}
         />
       </View>
