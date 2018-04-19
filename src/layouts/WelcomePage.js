@@ -6,10 +6,7 @@ import {
   StatusBar
 } from 'react-native';
 
-// Init Layout
-import Layout from './Layout.js';
-
-// Styles
+// 公共样式
 import { AppColors, AppSizes } from '@app/style';
 
 const styles = StyleSheet.create({
@@ -33,7 +30,7 @@ export default class WelcomePage extends Component {
   componentDidMount() {
     const { navigation } = this.props;
     setTimeout(() => {
-      navigation.navigate('Layout');
+      navigation.navigate('TabNav');
     }, 1666);
   }
 
