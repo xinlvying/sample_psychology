@@ -10,7 +10,8 @@ import {
   StyleSheet,
   Text,
   View,
-  Button
+  Button,
+  StatusBar
 } from 'react-native';
 
 const instructions = Platform.select({
@@ -25,6 +26,12 @@ export default class Mine extends Component {
     const { navigation } = this.props;
     return (
       <View style={styles.container}>
+        <StatusBar
+          animated={true} //指定状态栏的变化是否应以动画形式呈现。目前支持这几种样式：backgroundColor, barStyle和hidden  
+          hidden={false}  //是否隐藏状态栏。  
+          backgroundColor={'#FFF'} //状态栏的背景色  
+          barStyle={'dark-content'} // enum('default', 'light-content', 'dark-content')   
+        />
         <Text style={styles.welcome}>
           Welcome to Page1!
         </Text>

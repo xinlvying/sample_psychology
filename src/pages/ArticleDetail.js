@@ -7,7 +7,8 @@ import {
   ScrollView,
   Platform,
   Button,
-  WebView
+  WebView,
+  StatusBar
 } from 'react-native';
 
 import FitImage from "react-native-fit-image";
@@ -192,42 +193,52 @@ export default class ArticleDetail extends Component {
     const { navigation } = this.props;
     console.log(navigation);
     return (
-      <ScrollView style={AppCommonStyles.pageWrapper}>
-        <View style={[AppCommonStyles.cardContainer, styles.articleContainer]}>
-          {/* 文章头，包含标题，作者 */}
-          <View>
-            <Text style={styles.articleTitle}>文章标题</Text>
-            <View style={styles.author}>
-              <Image style={styles.authorImg} source={require('../images/banner.png')} />
-              <Text style={styles.authorName}>啦啦啦</Text>
+      <View style={AppCommonStyles.appContainer}>
+        <StatusBar
+          animated={true} //指定状态栏的变化是否应以动画形式呈现。目前支持这几种样式：backgroundColor, barStyle和hidden  
+          hidden={false}  //是否隐藏状态栏。  
+          backgroundColor={'#FFF'} //状态栏的背景色  
+          barStyle={'dark-content'} // enum('default', 'light-content', 'dark-content')   
+        />
+
+        <ScrollView style={AppCommonStyles.pageContainer}>
+          <View style={[AppCommonStyles.cardContainer, styles.articleContainer]}>
+            {/* 文章头，包含标题，作者 */}
+            <View>
+              <Text style={styles.articleTitle}>文章标题</Text>
+              <View style={styles.author}>
+                <Image style={styles.authorImg} source={require('../images/banner.png')} />
+                <Text style={styles.authorName}>啦啦啦</Text>
+              </View>
             </View>
-          </View>
 
-          {/* 文章主体 */}
-          <View style={styles.articleBody}>
-            <Markdown
-              rules={markdownRules}
-              style={markdownStyles}>
-              {copy}
-            </Markdown>
-          </View>
+            {/* 文章主体 */}
+            <View style={styles.articleBody}>
+              <Markdown
+                rules={markdownRules}
+                style={markdownStyles}>
+                {copy}
+              </Markdown>
+            </View>
 
-          {/* 文章页脚 */}
-          {/* <View style={styles.articleFooter}>
+            {/* 文章页脚 */}
+            {/* <View style={styles.articleFooter}>
           </View> */}
-        </View>
+          </View>
 
-        {/* 相关文章推荐 */}
-        {/* <View style={styles.articleListContainer}>
+          {/* 相关文章推荐 */}
+          {/* <View style={styles.articleListContainer}>
         </View> */}
-      </ScrollView>
+        </ScrollView>
+      </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
   articleContainer: {
-    margin: 0,
+    marginTop: 0,
+    paddingTop: 20
   },
   articleTitle: {
     fontSize: AppFonts.h2.fontSize,

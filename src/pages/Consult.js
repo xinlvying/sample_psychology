@@ -7,9 +7,12 @@ import {
   Button,
   FlatList,
   ScrollView,
+  StatusBar,
   TouchableOpacity,
   TouchableHighlight
 } from 'react-native';
+
+import Icon from 'react-native-vector-icons/Ionicons';
 
 // 公共样式
 import { AppColors, AppSizes, AppFonts, AppCommonStyles } from '../style';
@@ -48,18 +51,57 @@ export default class Consult extends Component {
     const { consultantList } = this.state;
 
     return (
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-        style={AppCommonStyles.pageWrapper}>
+      <View style={AppCommonStyles.appContainer}>
+        <StatusBar
+          animated={true} //指定状态栏的变化是否应以动画形式呈现。目前支持这几种样式：backgroundColor, barStyle和hidden  
+          hidden={false}  //是否隐藏状态栏。  
+          backgroundColor={'#FFF'} //状态栏的背景色  
+          barStyle={'dark-content'} // enum('default', 'light-content', 'dark-content')   
+        />
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          style={AppCommonStyles.pageContainer}>
 
-        <View style={[AppCommonStyles.cardWrapper, styles.pushArticleContainer]}>
-          <View style={AppCommonStyles.cardContainer}>
-            <Text style={styles.homeModuleTitle}>专题推荐</Text>
+          <View style={[AppCommonStyles.cardContainer, styles.cardContainer]}>
+            <View style={styles.headerContainer}>
+              <TouchableHighlight
+                underlayColor="#eee"
+                style={styles.headerItem}
+                onPress={() => navigation.navigate('ArticleDetail')}>
+                <View>
+                  <View style={styles.title}>
+                    <Icon
+                      color='#99CCFF'
+                      name='ios-contact'
+                      size={18} />
+                    <Text style={styles.text}>自助评估</Text>
+                  </View>
+                  <Text style={styles.homeModuleTitle}>抑郁|焦虑|压力</Text>
+                </View>
+              </TouchableHighlight>
+
+              <View style={styles.line}></View>
+
+              <TouchableHighlight
+                underlayColor="#eee"
+                style={styles.headerItem}
+                onPress={() => navigation.navigate('ArticleDetail')}>
+                <View>
+                  <View style={styles.title}>
+                    <Icon
+                      color='#FFCC99'
+                      name='ios-document'
+                      size={18} />
+                    <Text style={styles.text}>心理测试</Text>
+                  </View>
+                  <Text style={styles.homeModuleTitle}>更多趣味测试</Text>
+                </View>
+              </TouchableHighlight>
+            </View>
           </View>
-        </View>
 
-        {/* 相关文章推荐列表 */}
-        {/* <View style={AppCommonStyles.cardWrapper}>
+          {/* 相关文章推荐列表 */}
+          {/* <View style={AppCommonStyles.cardWrapper}>
           <View style={AppCommonStyles.cardContainer}>
             <View>
               <Text style={styles.homeModuleTitle}>热门心理</Text>
@@ -80,48 +122,61 @@ export default class Consult extends Component {
           </View>
         </View> */}
 
-        {/* 底部文字logo */}
-        <View style={styles.logoContainer}>
+          {/* 底部文字logo */}
+          {/* <View style={styles.logoContainer}>
           <View style={styles.logoLeftLine}></View>
           <Text style={styles.logoText}>倾心无痕</Text>
           <View style={styles.logoRightLine}></View>
-        </View>
-      </ScrollView>
+        </View> */}
+        </ScrollView >
+      </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
 
-  // 专题推送区
-  pushArticleContainer: {
-    marginTop: 20,
-    height: 120,
+  cardContainer: {
+    marginTop: 0,
+    paddingTop: 20,
+    height: 100,
+    borderBottomWidth: 1,
+    borderBottomColor: AppColors.pageBackground
   },
-  homeModuleTitle: {
-    paddingTop: 10,
-    paddingBottom: 10,
+  // 咨询页header
+
+  headerContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  line: {
+    width: 2,
+    height: 50,
+    backgroundColor: AppColors.pageBackground
+  },
+  headerItem: {
+    flex: 1,
+  },
+  title: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: 30,
+  },
+  text: {
+    marginLeft: 8,
     fontSize: AppFonts.h5.fontSize,
-    lineHeight: AppFonts.h5.lineHeight,
     color: AppColors.textTitle
   },
-  moduleScrollContainer: {
-    flex: 1,
-    // paddingTop: 10,
-    paddingRight: 10,
-    paddingBottom: 10,
-    paddingLeft: 0,
+  homeModuleTitle: {
+    fontSize: 12,
+    lineHeight: AppFonts.h5.lineHeight,
+    textAlign: 'center',
+    color: AppColors.textDefault
   },
-  scrollItem: {
-    flex: 1,
-    marginLeft: 10,
-    width: 140,
-    borderRadius: 6,
-    backgroundColor: '#999'
-  },
-  firstScrollItem: {
-    marginLeft: 0
-  },
+
 
   // logo
   logoContainer: {
