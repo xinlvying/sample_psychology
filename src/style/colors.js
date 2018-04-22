@@ -6,8 +6,9 @@
  */
 
 const app = {
-  background: '#EEEEEE',
-  cardBackground: '#FFFFFF'
+  appBackground: '#FFFFFF',          // APP背景
+  cardWrapperBackground: '#EEEEEE',  // 区域卡片外层包裹背景
+  cardContainerBackground: '#FFFFFF' // 区域卡片内容容器背景
 };
 
 const brand = {

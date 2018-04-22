@@ -1,3 +1,3 @@
-import { AppTabNavigator as Welcome } from './components/navigators/AppNavigators';
+import { AppStackNavigator as WelcomeToHome } from './components/navigators/AppNavigators';
 
-export default Welcome;
+export default WelcomeToHome;
