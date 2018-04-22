@@ -8,5 +8,6 @@
 import AppColors from './colors';
 import AppFonts from './fonts';
 import AppSizes from './sizes';
+import AppCommonStyles from './common'
 
-export { AppColors, AppFonts, AppSizes };
+export { AppColors, AppFonts, AppSizes, AppCommonStyles };

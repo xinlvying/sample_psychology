@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
   }
 });
 
-export default class WelcomePage extends Component {
+export default class Welcome extends Component {
 
   componentDidMount() {
     const { navigation } = this.props;
@@ -35,7 +35,6 @@ export default class WelcomePage extends Component {
   }
 
   render() {
-    console.log(this.props);
     return (
       <View style={styles.container}>
         <Image style={styles.launchImage} source={require('@app/images/launch-image.png')}></Image>

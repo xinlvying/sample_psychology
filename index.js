@@ -1,4 +1,4 @@
 import { AppRegistry } from 'react-native';
-import Welcome from './src/index';
+import WelcomeToHome from './src/index';
 
-AppRegistry.registerComponent('sample_psychology', () => Welcome);
+AppRegistry.registerComponent('sample_psychology', () => WelcomeToHome);

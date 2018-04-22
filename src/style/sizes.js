@@ -24,10 +24,17 @@ export default {
     widthThreeQuarters: screenWidth * 0.75,
   },
 
+  // Page Container
+  container: {
+    width: screenWidth - 40,
+    widthHalf: (screenWidth - 40) * 0.5,
+    widthThird: (screenWidth - 40) * 0.333,
+    widthTwoThirds: (screenWidth - 40) * 0.666,
+    widthQuarter: (screenWidth - 40) * 0.25,
+    widthThreeQuarters: (screenWidth - 40) * 0.75,
+  },
+
   // Navbar
   navbarHeight: (Platform.OS === 'ios') ? 50 : 50,
   statusBarHeight: (Platform.OS === 'ios') ? 16 : 24,
-
-  // Padding
-  padding: 20
 };
