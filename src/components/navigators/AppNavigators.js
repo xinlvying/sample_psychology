@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { Button } from 'react-native';
+import { Platform, StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
-import { StackNavigator, TabNavigator, TabBarTop } from 'react-navigation';
+import { StackNavigator, TabNavigator, TabBarTop, TabBarBottom } from 'react-navigation';
 
 import Welcome from '../../layouts/Welcome';
 import Home from '../../pages/Home';
@@ -45,14 +45,20 @@ const TabNavigatorConfig = {
   tabBarPosition: 'top',
   tabBarOptions: {
     scrollEnabled: true,
+    activeTintColor: '#339999',
+    inactiveTintColor: '#333',
+    indicatorStyle: {
+      backgroundColor: '#339999'
+    },
     labelStyle: {
-      fontSize: 12,
+      fontSize: 14,
     },
     tabStyle: {
       width: 100,
     },
     style: {
-      paddingTop: 20,
+      paddingTop: (Platform.OS === 'ios') ? 16 : null,
+      backgroundColor: '#FFF',
     }
   }
 }
@@ -126,7 +132,17 @@ export const AppTabNavigator = TabNavigator(
     }
   },
   {
-    tabBarPosition: 'bottom'
+    tabBarComponent: TabBarBottom,
+    tabBarPosition: 'bottom',
+    tabBarOptions: {
+      showIcon: true,
+      activeTintColor: '#339999',
+      style: {
+        backgroundColor: '#FFF',
+        borderTopWidth: 2,
+        borderTopColor: '#EEE'
+      }
+    }
   }
 );
 
@@ -152,14 +168,7 @@ export const AppStackNavigator = StackNavigator({
     screen: ArticleDetail,
     navigationOptions: {
       title: '文章详情'
-    },
-    transitionConfig: () => ({
-      transitionSpec: {
-        duration: 300,
-        easing: Easing.out(Easing.poly(4)),
-        timing: Animated.timing,
-      },
-    })
+    }
   },
   Consult: {
     screen: Consult

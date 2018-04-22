@@ -64,11 +64,10 @@ export default class BannerSwiper extends Component {
 const defaultStyles = StyleSheet.create({
   // 轮播父容器
   swiperContainer: {
-    marginTop: Platform.OS == 'ios' ? 20 : null,
+    paddingTop: Platform.OS == 'ios' ? 20 : null,
     paddingLeft: 20,
     paddingRight: 20,
-    height: 100,
-    backgroundColor: AppColors.appBackground,
+    height: 120,
   },
   paginationStyle: {
     bottom: 8

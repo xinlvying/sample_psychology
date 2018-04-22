@@ -10,8 +10,8 @@ import {
   StyleSheet,
   Text,
   View,
-  Button,
-  ScrollView
+  ScrollView,
+  StatusBar
 } from 'react-native';
 
 import { ArticleCategoryNavigator } from '../components/navigators/AppNavigators';
@@ -32,9 +32,9 @@ export default class Article extends Component {
           category: '文章',
           title: '这是一篇文章！',
           describe: '这是一篇文章！这是一篇文章！这是一篇文章！',
-          poster: '',
+          poster: 'https://jdxl-img.b0.upaiyun.com/post/8daaff107b2c477885b0d59af276a6de.jpeg',
           author: '登山涉水',
-          authorImg: '',
+          authorImg: 'https://jdxl-img.b0.upaiyun.com/post/8daaff107b2c477885b0d59af276a6de.jpeg',
           viewCount: 34567
         },
         {
@@ -42,9 +42,9 @@ export default class Article extends Component {
           category: '文章',
           title: '这是一篇文章！',
           describe: '这是一篇文章！这是一篇文章！这是一篇文章！',
-          poster: '',
+          poster: 'https://jdxl-img.b0.upaiyun.com/post/8daaff107b2c477885b0d59af276a6de.jpeg',
           author: '登山涉水',
-          authorImg: '',
+          authorImg: 'https://jdxl-img.b0.upaiyun.com/post/8daaff107b2c477885b0d59af276a6de.jpeg',
           viewCount: 34567
         },
       ]
@@ -55,29 +55,30 @@ export default class Article extends Component {
     const { navigation } = this.props;
     const { articleList } = this.state;
     return (
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-        style={AppCommonStyles.pageWrapper}>
-        <View style={AppCommonStyles.cardWrapper}>
+      <View style={AppCommonStyles.appContainer}>
+        <StatusBar
+          animated={true} //指定状态栏的变化是否应以动画形式呈现。目前支持这几种样式：backgroundColor, barStyle和hidden  
+          hidden={false}  //是否隐藏状态栏。  
+          backgroundColor={'#FFF'} //状态栏的背景色  
+          barStyle={'dark-content'} // enum('default', 'light-content', 'dark-content')   
+        />
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          style={AppCommonStyles.pageContainer}>
           <View style={AppCommonStyles.cardContainer}>
-            {/* <View>
-              <Text style={styles.homeModuleTitle}>热门心理</Text>
-            </View> */}
-            <View>
-              {
-                articleList.length ? articleList.map((item, index) => {
-                  return (
-                    <ArticleListItem
-                      key={index}
-                      parentProps={this.props}
-                      item={item} />
-                  );
-                }) : ''
-              }
-            </View>
+            {
+              articleList.length ? articleList.map((item, index) => {
+                return (
+                  <ArticleListItem
+                    key={index}
+                    parentProps={this.props}
+                    item={item} />
+                );
+              }) : ''
+            }
           </View>
-        </View>
-      </ScrollView>
+        </ScrollView>
+      </View>
     );
   }
 }

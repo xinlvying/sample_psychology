@@ -6,16 +6,15 @@
  */
 import AppColors from './colors';
 
-// 页面容器
-const pageWrapper = {
+const appContainer = {
   flex: 1,
   backgroundColor: AppColors.appBackground
-};
+}
 
-// 区域卡片外层包裹容器
-const cardWrapper = {
+// 页面容器
+const pageContainer = {
   flex: 1,
-  backgroundColor: AppColors.cardWrapperBackground
+  backgroundColor: AppColors.pageBackground
 };
 
 // 区域卡片内容容器
@@ -24,11 +23,11 @@ const cardContainer = {
   marginTop: 8,
   paddingLeft: 20,
   paddingRight: 20,
-  backgroundColor: AppColors.cardContainerBackground
+  backgroundColor: AppColors.cardBackground
 };
 
 export default AppCommonStyles = {
-  pageWrapper,
-  cardWrapper,
+  appContainer,
+  pageContainer,
   cardContainer
 };

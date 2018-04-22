@@ -4,8 +4,7 @@ import {
   View,
   Image,
   Text,
-  TouchableOpacity,
-  TouchableHighlight
+  TouchableOpacity
 } from 'react-native';
 
 // 公共样式
@@ -32,8 +31,7 @@ export default class ArticleListItem extends Component {
     const { item } = this.state;
 
     return (
-      <TouchableHighlight
-        underlayColor="#eee"
+      <TouchableOpacity
         style={defaultStyles.listItem}
         onPress={() => parentProps.navigation.navigate('ArticleDetail', { title: item.title })}>
         <View>
@@ -52,7 +50,7 @@ export default class ArticleListItem extends Component {
             <Text style={defaultStyles.articleInfoText}>{item.viewCount}阅读·{item.category}</Text>
           </View>
         </View>
-      </TouchableHighlight>
+      </TouchableOpacity>
     );
   }
 }
@@ -61,8 +59,8 @@ const defaultStyles = StyleSheet.create({
   listItem: {
     paddingTop: 20,
     paddingBottom: 20,
-    borderTopWidth: 1,
-    borderTopColor: AppColors.cardWrapperBackground,
+    borderBottomWidth: 1,
+    borderBottomColor: AppColors.pageBackground,
   },
   article: {
     flexDirection: 'row',
