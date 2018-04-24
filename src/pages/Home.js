@@ -208,7 +208,6 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     width: 140,
     borderRadius: 6,
-    backgroundColor: '#999'
   },
   firstScrollItem: {
     marginLeft: 0
