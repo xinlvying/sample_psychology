@@ -3310,7 +3310,7 @@ lodash@^3.5.0:
   version "3.10.1"
   resolved "http://registry.npm.taobao.org/lodash/download/lodash-3.10.1.tgz#5bf45e8e49ba4189e17d482789dfd15bd140b7b6"
 
-lodash@^4.0.0, lodash@^4.13.1, lodash@^4.14.0, lodash@^4.15.0, lodash@^4.17.4, lodash@^4.17.5, lodash@^4.2.0, lodash@^4.3.0, lodash@^4.6.1:
+lodash@^4.0.0, lodash@^4.13.1, lodash@^4.14.0, lodash@^4.17.4, lodash@^4.17.5, lodash@^4.2.0, lodash@^4.3.0, lodash@^4.6.1:
   version "4.17.5"
   resolved "http://registry.npm.taobao.org/lodash/download/lodash-4.17.5.tgz#99a92d65c0272debe8c96b6057bc8fbfa3bed511"
 
@@ -4197,13 +4197,11 @@ react-native-drawer-layout@1.3.2:
   dependencies:
     react-native-dismiss-keyboard "1.0.0"
 
-react-native-easy-markdown@^1.1.9:
-  version "1.1.9"
-  resolved "http://registry.npm.taobao.org/react-native-easy-markdown/download/react-native-easy-markdown-1.1.9.tgz#5e650413d61a33d6feb764c99cebaa8a3258c0e1"
-  dependencies:
-    simple-markdown "^0.1.1"
+"react-native-dropdown-menu@https://github.com/mataoct/react-native-dropdown-menu":
+  version "1.1.4"
+  resolved "https://github.com/mataoct/react-native-dropdown-menu#1440b91ff61d925c90f3ebd9443dfb2e586fa547"
 
-react-native-fit-image@^1.5.2:
+react-native-fit-image@^1.5.2, react-native-fit-image@^1.5.4:
   version "1.5.4"
   resolved "http://registry.npm.taobao.org/react-native-fit-image/download/react-native-fit-image-1.5.4.tgz#73d2fccc7ad902cf2ffcd008a2a74749ad50134a"
   dependencies:
@@ -4217,18 +4215,17 @@ react-native-markdown-renderer@^3.1.0:
     prop-types "^15.5.10"
     react-native-fit-image "^1.5.2"
 
+react-native-modal-dropdown@^0.6.2:
+  version "0.6.2"
+  resolved "http://registry.npm.taobao.org/react-native-modal-dropdown/download/react-native-modal-dropdown-0.6.2.tgz#da6027b3546d2031fbce46242bffc95561e13599"
+  dependencies:
+    prop-types "^15.6.0"
+
 react-native-safe-area-view@^0.7.0:
   version "0.7.0"
   resolved "http://registry.npm.taobao.org/react-native-safe-area-view/download/react-native-safe-area-view-0.7.0.tgz#38f5ab9368d6ef9e5d18ab64212938af3ec39421"
   dependencies:
     hoist-non-react-statics "^2.3.1"
-
-react-native-simple-markdown@^1.1.0:
-  version "1.1.0"
-  resolved "http://registry.npm.taobao.org/react-native-simple-markdown/download/react-native-simple-markdown-1.1.0.tgz#4d462f8ced26393c5230467420c61a50cc6a8095"
-  dependencies:
-    lodash "^4.15.0"
-    simple-markdown "git://github.com/CharlesMangwa/simple-markdown.git"
 
 react-native-swiper@^1.5.13:
   version "1.5.13"
@@ -4729,14 +4726,6 @@ shellwords@^0.1.1:
 signal-exit@^3.0.0, signal-exit@^3.0.2:
   version "3.0.2"
   resolved "http://registry.npm.taobao.org/signal-exit/download/signal-exit-3.0.2.tgz#b5fdc08f1287ea1178628e415e25132b73646c6d"
-
-simple-markdown@^0.1.1:
-  version "0.1.2"
-  resolved "http://registry.npm.taobao.org/simple-markdown/download/simple-markdown-0.1.2.tgz#3c1510fe40bd9ea067717b8a533c9cf36325b413"
-
-"simple-markdown@git://github.com/CharlesMangwa/simple-markdown.git":
-  version "0.1.1"
-  resolved "git://github.com/CharlesMangwa/simple-markdown.git#33d963c760b8196bee01b1a5ba9974bc7f669af1"
 
 simple-plist@^0.2.1:
   version "0.2.1"

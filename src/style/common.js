@@ -23,7 +23,12 @@ const cardContainer = {
   marginTop: 8,
   paddingLeft: 20,
   paddingRight: 20,
-  backgroundColor: AppColors.cardBackground
+  backgroundColor: AppColors.cardBackground,
+  // elevation: 1,
+  shadowOffset: { width: 0, height: 1 },
+  shadowColor: AppColors.pageBackground,
+  shadowOpacity: 1,
+  shadowRadius: 0
 };
 
 export default AppCommonStyles = {
