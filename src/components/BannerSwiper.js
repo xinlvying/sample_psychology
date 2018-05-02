@@ -50,8 +50,8 @@ export default class BannerSwiper extends Component {
               <TouchableHighlight
                 key={index}
                 underlayColor="transparent"
-                onPress={() => parentProps.navigation.navigate('ArticleDetail', { title: item.title })}>
-                < Image style={[defaultStyles.bannerImg, this.props.bannerImgStyle]} source={{ uri: item.src }} />
+                onPress={() => parentProps.navigation.navigate('ArticleDetail', { articleId: item.article_id })}>
+                < Image style={[defaultStyles.bannerImg, this.props.bannerImgStyle]} source={{ uri: item.img_url }} />
               </TouchableHighlight>);
           }) : ''}
         </Swiper>
@@ -64,17 +64,18 @@ export default class BannerSwiper extends Component {
 const defaultStyles = StyleSheet.create({
   // 轮播父容器
   swiperContainer: {
-    paddingTop: Platform.OS == 'ios' ? 20 : null,
+    paddingTop: 10,
     paddingLeft: 20,
     paddingRight: 20,
-    height: 120,
+    height: 150,
   },
   paginationStyle: {
     bottom: 8
   },
   bannerImg: {
     width: AppSizes.container.width,
-    height: 100,
-    resizeMode: 'contain'
+    height: 140,
+    resizeMode: 'cover',
+    borderRadius: 6,
   },
 });

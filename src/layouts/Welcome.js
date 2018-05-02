@@ -38,7 +38,7 @@ export default class Welcome extends Component {
     return (
       <View style={styles.container}>
         <StatusBar
-          hidden={true}  //是否隐藏状态栏。  
+          hidden={true}  
         />
         <Image style={styles.launchImage} source={require('@app/images/launch-image.png')}></Image>
       </View>

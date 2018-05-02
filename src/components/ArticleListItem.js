@@ -33,21 +33,21 @@ export default class ArticleListItem extends Component {
     return (
       <TouchableOpacity
         style={defaultStyles.listItem}
-        onPress={() => parentProps.navigation.navigate('ArticleDetail', { title: item.title })}>
+        onPress={() => parentProps.navigation.navigate('ArticleDetail', { articleId: item._id })}>
         <View>
           <View style={defaultStyles.article}>
             <View style={defaultStyles.articleTitleAndDes}>
               <Text style={defaultStyles.articleTitle}>{item.title}</Text>
-              <Text style={defaultStyles.articleDes}>{item.describe}</Text>
+              <Text numberOfLines={2} style={defaultStyles.articleDes}>{item.description}</Text>
             </View>
-            <Image style={defaultStyles.articlePoster} source={{ uri: item.poster }} />
+            <Image style={defaultStyles.articlePoster} source={{ uri: item.thumb }} />
           </View>
           <View style={defaultStyles.articleInfo}>
             <View style={defaultStyles.authorWrapper}>
-              <Image style={defaultStyles.authorImg} source={{ uri: item.authorImg }} />
+              <Image style={defaultStyles.authorImg} source={{ uri: 'http://192.168.2.1:8000/img/upload_9fc093fcfe541096cd218da3c3d93e17.png' }} />
               <Text style={defaultStyles.articleInfoText}>{item.author}</Text>
             </View>
-            <Text style={defaultStyles.articleInfoText}>{item.viewCount}阅读·{item.category}</Text>
+            <Text style={defaultStyles.articleInfoText}>{item.meta ? item.meta.views : ''}阅读·{item.category.name}</Text>
           </View>
         </View>
       </TouchableOpacity>
@@ -78,6 +78,7 @@ const defaultStyles = StyleSheet.create({
   },
   articleDes: {
     marginTop: 10,
+    height: 60,
     fontSize: AppFonts.h5.fontSize,
     lineHeight: AppFonts.h3.lineHeight,
     color: AppColors.textDefault
@@ -92,7 +93,7 @@ const defaultStyles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-around',
-    marginTop: 20,
+    marginTop: 10,
     height: 20
   },
   authorWrapper: {

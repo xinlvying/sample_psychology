@@ -9,14 +9,24 @@ import {
   ScrollView,
   StatusBar,
   Picker,
-  PickerIOS,
+  Modal,
   TouchableOpacity,
+  NativeModules,
+  LayoutAnimation,
   TouchableHighlight
 } from 'react-native';
 
+import showToast from '../utils/toast';
+
+const { UIManager } = NativeModules;
+
+UIManager.setLayoutAnimationEnabledExperimental &&
+  UIManager.setLayoutAnimationEnabledExperimental(true);
+
 import Icon from 'react-native-vector-icons/Ionicons';
-import DropdownMenu from 'react-native-dropdown-menu';
-import ArticleListItem from '../components/ArticleListItem';
+import DropdownMenu from '../components/dropdownmenu/DropDownMenu';
+
+import ConsultantListItem from '../components/ConsultantListItem';
 
 // 公共样式
 import { AppColors, AppSizes, AppFonts, AppCommonStyles } from '../style';
@@ -83,16 +93,16 @@ export default class Consult extends Component {
   render() {
     const { navigation } = this.props;
     const { consultantList } = this.state;
-    const data = [["C", "Java", "JavaScript"], ["Python", "Ruby"], ["Swift", "Objective-C"]];
+    const data = [["第一周", "第二周"], ["全部", "星期一", "星期二", "星期三", "星期四", "星期五"], ["不限", "男", "女"]];
 
     return (
       <View style={AppCommonStyles.appContainer}>
         <View style={AppCommonStyles.pageContainer}>
           <StatusBar
-            animated={true} //指定状态栏的变化是否应以动画形式呈现。目前支持这几种样式：backgroundColor, barStyle和hidden  
-            hidden={false}  //是否隐藏状态栏。  
-            backgroundColor={'#FFF'} //状态栏的背景色  
-            barStyle={'dark-content'} // enum('default', 'light-content', 'dark-content')   
+            animated={true}
+            hidden={false}
+            backgroundColor={'#FFF'}
+            barStyle={'dark-content'}
           />
 
           <View style={[AppCommonStyles.cardContainer, styles.headerContainer]}>
@@ -100,14 +110,14 @@ export default class Consult extends Component {
               <TouchableHighlight
                 underlayColor="#eee"
                 style={styles.headerItem}
-                onPress={() => navigation.navigate('ArticleDetail')}>
+                onPress={() => navigation.navigate('Test')}>
                 <View>
                   <View style={styles.title}>
                     <Icon
                       color='#99CCFF'
                       name='ios-contact'
                       size={18} />
-                    <Text style={styles.text}>自助评估</Text>
+                    <Text style={styles.text}>自助测试</Text>
                   </View>
                   <Text style={styles.homeModuleTitle}>抑郁|焦虑|压力</Text>
                 </View>
@@ -125,43 +135,40 @@ export default class Consult extends Component {
                       color='#FFCC99'
                       name='ios-document'
                       size={18} />
-                    <Text style={styles.text}>心理测试</Text>
+                    <Text style={styles.text}>心灵树洞</Text>
                   </View>
-                  <Text style={styles.homeModuleTitle}>更多趣味测试</Text>
+                  <Text style={styles.homeModuleTitle}>匿名问答</Text>
                 </View>
               </TouchableHighlight>
             </View>
           </View>
 
-          <DropdownMenu style={{ flex: 1 }}
-            // checkImage={require('./img/check.png')}    //set the icon of the selected item, default is a check mark
-            bgColor={'#FFF'}                            //the background color of the head, default is grey
-            tintColor={'#555'}                        //the text color of the head, default is white
-            selectItemColor={'#339999'}                    //the text color of the selected item, default is red
-            data={data}
-            maxHeight={410}                            // the max height of the menu
-            handler={(selection, row) => alert(data[selection][row])}>
-            {/* 相关文章推荐列表 */}
-            <FlatList
-              style={[AppCommonStyles.cardContainer, { marginTop: 0, elevation: 0, }]}
-              data={[...consultantList]}
-              renderItem={
-                ({ item }) => <ArticleListItem
-                  parentProps={this.props}
-                  item={item} />
-              }>
-            </FlatList>
-          </DropdownMenu>
-
-
-          {/* 底部文字logo */}
-          {/* <View style={styles.logoContainer}>
-          <View style={styles.logoLeftLine}></View>
-          <Text style={styles.logoText}>倾心无痕</Text>
-          <View style={styles.logoRightLine}></View>
-        </View> */}
+          <View style={{ flex: 1 }}>
+            <DropdownMenu
+              style={{ flex: 1 }}
+              bgColor={'white'}
+              tintColor={'#666666'}
+              activityTintColor={'#39BFB7'}
+              handler={(selection, row) => {
+                console.log(selection, row)
+                showToast(data[selection][row])
+              }
+              }
+              data={data}
+            >
+              <FlatList
+                style={[AppCommonStyles.cardContainer, { marginTop: 0, elevation: 0, }]}
+                data={[...consultantList]}
+                renderItem={
+                  ({ item }) => <ConsultantListItem
+                    parentProps={this.props}
+                    item={item} />
+                }>
+              </FlatList>
+            </DropdownMenu>
+          </View>
         </View>
-      </View>
+      </View >
     );
   }
 }
@@ -209,5 +216,42 @@ const styles = StyleSheet.create({
     lineHeight: AppFonts.h5.lineHeight,
     textAlign: 'center',
     color: AppColors.textDefault
+  },
+
+  selectBarContainer: {
+    // flex: 0,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginTop: 0,
+    paddingLeft: 0,
+    paddingRight: 0,
+    height: 40,
+    // backgroundColor: '#333'
+  },
+  selectBtns: {
+    flex: 1,
+    width: 50,
+    height: 40,
+    alignItems: 'center',
+    justifyContent: 'center',
+    // backgroundColor: '#333'
+  },
+
+  box: {
+    // position: 'absolute',
+    // width: 200,
+    // height: 200,
+    backgroundColor: 'red',
+  },
+  button: {
+    backgroundColor: 'black',
+    paddingHorizontal: 20,
+    paddingVertical: 15,
+    marginTop: 15,
+  },
+  buttonText: {
+    color: '#fff',
+    fontWeight: 'bold',
   },
 });
