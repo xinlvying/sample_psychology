@@ -15,46 +15,60 @@ import ArticleListItem from '../components/ArticleListItem';
 // 公共样式
 import { AppColors, AppSizes, AppFonts, AppCommonStyles } from '../style';
 
+// 引入API函数
+import Api from '../service/api';
+
 export default class Home extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      articleList: [
-        {
-          id: '1',
-          category: '文章',
-          title: '这是一篇文章！',
-          describe: '这是一篇文章！这是一篇文章！这是一篇文章！',
-          poster: 'https://jdxl-img.b0.upaiyun.com/post/8daaff107b2c477885b0d59af276a6de.jpeg',
-          author: '登山涉水',
-          authorImg: 'https://jdxl-img.b0.upaiyun.com/post/8daaff107b2c477885b0d59af276a6de.jpeg',
-          viewCount: 34567
-        },
-        {
-          id: '1',
-          category: '文章',
-          title: '这是一篇文章！',
-          describe: '这是一篇文章！这是一篇文章！这是一篇文章！',
-          poster: 'https://jdxl-img.b0.upaiyun.com/post/8daaff107b2c477885b0d59af276a6de.jpeg',
-          author: '登山涉水',
-          authorImg: 'https://jdxl-img.b0.upaiyun.com/post/8daaff107b2c477885b0d59af276a6de.jpeg',
-          viewCount: 34567
-        },
-      ]
+      bannerList: [],
+      recommendList: [],
+      articleList: []
     }
+  }
+
+  componentWillMount() {
+
+    // 获取轮播banner
+    Api.getSwiperBanner(2)
+      .then((res) => {
+        console.log(res.data)
+        this.setState({
+          bannerList: [...res.data]
+        });
+      })
+
+    // 获取专题推荐banner
+    Api.getSwiperBanner(2)
+      .then(res => {
+        this.setState({
+          recommendList: [...res.data]
+        });
+      })
+
+    // 获取文章列表
+    Api.getArticleList(1)
+      .then(res => {
+        this.setState({
+          articleList: [...res.data.data]
+        });
+      })
   }
 
   render() {
     const { navigation } = this.props;
-    const { articleList } = this.state;
+    const { articleList, bannerList, recommendList } = this.state;
+    console.log(articleList);
+    if (!bannerList.length || !recommendList.length || !articleList.length) return null;
 
     return (
       <View style={AppCommonStyles.appContainer}>
         <StatusBar
-          animated={true} //指定状态栏的变化是否应以动画形式呈现。目前支持这几种样式：backgroundColor, barStyle和hidden  
-          hidden={false}  //是否隐藏状态栏。  
-          backgroundColor={'#FFF'} //状态栏的背景色  
-          barStyle={'dark-content'} // enum('default', 'light-content', 'dark-content')   
+          animated={true}
+          hidden={false}
+          backgroundColor={'#FFF'}
+          barStyle={'dark-content'}
         />
         <ScrollView
           showsVerticalScrollIndicator={false}
@@ -64,24 +78,26 @@ export default class Home extends Component {
           <BannerSwiper
             containerStyle={[AppCommonStyles.cardContainer, styles.cardContainer]}
             parentProps={this.props}
-            bannerList={[
-              { src: 'https://jdxl-img.b0.upaiyun.com/post/8daaff107b2c477885b0d59af276a6de.jpeg', title: 'jiaolv' },
-              { src: 'https://jdxl-img.b0.upaiyun.com/post/d2946958389f4e12bfa3f9e2df5199cb.jpeg', title: 'jiaolv' },
-              { src: 'https://jdxl-img.b0.upaiyun.com/post/788ea972eb314d358382b5d3e6526f89.png', title: 'jiaolv' },
-            ]} />
+            bannerList={[...bannerList]} />
 
           {/* 功能按钮组 */}
           <View style={[AppCommonStyles.cardContainer, styles.buttonGroupContainer]}>
             <TouchableOpacity
               onPress={() => navigation.navigate('Consult')}>
               <View style={styles.boxContainer}>
+                <View style={styles.btnImgContainer}>
+                  <Image style={styles.btnImg} source={require('../images/consult_icon.gif')} />
+                </View>
                 <Text style={styles.boxText}>心理咨询</Text>
               </View>
             </TouchableOpacity>
 
             <TouchableOpacity
-              onPress={() => alert('2')}>
+              onPress={() => navigation.navigate('Test')}>
               <View style={styles.boxContainer}>
+                <View style={styles.btnImgContainer}>
+                  <Image style={styles.btnImg} source={require('../images/test_icon.gif')} />
+                </View>
                 <Text style={styles.boxText}>心理测试</Text>
               </View>
             </TouchableOpacity>
@@ -89,6 +105,9 @@ export default class Home extends Component {
             <TouchableOpacity
               onPress={() => navigation.navigate('Article')}>
               <View style={styles.boxContainer}>
+                <View style={styles.btnImgContainer}>
+                  <Image style={styles.btnImg} source={require('../images/reading_icon.gif')} />
+                </View>
                 <Text style={styles.boxText}>心理悦读</Text>
               </View>
             </TouchableOpacity>
@@ -101,23 +120,15 @@ export default class Home extends Component {
               horizontal
               showsHorizontalScrollIndicator={false}
               style={styles.moduleScrollContainer}>
-              <TouchableOpacity
-
-                onPress={() => alert('1')}>
-                <Image style={[styles.scrollItem, styles.firstScrollItem]} source={require('../images/banner.png')} />
-              </TouchableOpacity>
-
-              <TouchableOpacity
-
-                onPress={() => alert('1')}>
-                <Image style={styles.scrollItem} source={require('../images/banner.png')} />
-              </TouchableOpacity>
-
-              <TouchableOpacity
-
-                onPress={() => alert('1')}>
-                <Image style={styles.scrollItem} source={require('../images/banner.png')} />
-              </TouchableOpacity>
+              {recommendList.length ? recommendList.map((item, index) => {
+                return (
+                  <TouchableOpacity
+                    key={index}
+                    onPress={() => navigation.navigate('ArticleDetail', { articleId: item.article_id })}>
+                    <Image style={styles.scrollItem} source={{ uri: item.img_url }} />
+                  </TouchableOpacity>
+                );
+              }) : ''}
             </ScrollView>
           </View>
 
@@ -173,16 +184,29 @@ const styles = StyleSheet.create({
   boxContainer: {
     alignItems: "center",
     justifyContent: "center",
+    marginTop: 20,
+    marginBottom: 20,
     width: AppSizes.container.widthThird,
-    height: 90,
+  },
+  btnImgContainer: {
+    width: 40,
+    height: 40,
+    padding: 5,
+    marginBottom: 6,
+    borderWidth: 1,
+    borderColor: "#d9f4f4",
+    borderRadius: 20,
+  },
+  btnImg: {
+    width: 30,
+    height: 30,
   },
   boxText: {
-    position: "absolute",
-    bottom: 15,
     width: AppSizes.container.widthThird,
+    fontSize: 12,
     textAlign: "center",
-    left: 0,
-    backgroundColor: "transparent"
+    color: "#6d707f",
+    backgroundColor: "transparent",
   },
 
   // 专题推送区
@@ -194,7 +218,7 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
     fontSize: AppFonts.h5.fontSize,
     lineHeight: AppFonts.h5.lineHeight,
-    color: AppColors.textTitle
+    color: "#969cb2"
   },
   moduleScrollContainer: {
     flex: 1,

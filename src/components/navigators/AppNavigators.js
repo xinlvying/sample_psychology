@@ -7,34 +7,29 @@ import Welcome from '../../layouts/Welcome';
 import Home from '../../pages/Home';
 import Article from '../../pages/Article';
 import Consult from '../../pages/Consult';
-import Mine from '../../pages/Mine';
+import Test from '../../pages/Test';
 
 import ArticleDetail from '../../pages/ArticleDetail';
 
 const articleTabs = [
-  { title: 'lala', category: 'Recommend' },
-  { title: '情绪压力', category: 'Emotion_Pressure' },
-  { title: '亲密关系', category: 'Intimacy' },
-  { title: '性心理', category: 'SexPsychology' },
-  { title: '人际关系', category: 'Relationship' },
-  { title: '升学就业', category: 'Job_Graduation' }
+  { id: 1, title: '精选推荐', name: 'Recommend' },
+  { id: 2, title: '情绪压力', name: 'Emotion_Pressure' },
+  { id: 3, title: '亲密关系', name: 'Love' },
+  { id: 4, title: '性心理', name: 'Sex' },
+  { id: 7, title: '人际关系', name: 'Relationship' },
+  { id: 8, title: '升学就业', name: 'StudyJob' }
 ]
 
 function setRouteConfigs(tabList) {
   var res = {};
   tabList.map(function (item) {
-    Object.defineProperty(res, item.category, {
-      enumerable: true,
-      configurable: false,
-      writable: false,
-      value: {
-        screen: Article,
-        navigationOptions: {
-          header: null,
-          tabBarLabel: item.title,
-        }
+    res[item.name] = {
+      screen: Article,
+      navigationOptions: {
+        header: null,
+        tabBarLabel: item.title,
       }
-    })
+    }
   });
   return res;
 }
@@ -112,23 +107,6 @@ export const AppTabNavigator = TabNavigator(
           />
         )
       }
-    },
-    Mine: {
-      screen: Mine,
-      navigationOptions: (props) => {
-        return {
-          header: null,
-          gesturesEnabled: false,
-          tabBarLabel: '我的',
-          tabBarIcon: ({ tintColor, focused }) => (
-            <Icon
-              name={focused ? 'ios-contact' : 'ios-contact-outline'}
-              size={26}
-              style={{ color: tintColor }}
-            />
-          )
-        }
-      }
     }
   },
   {
@@ -136,7 +114,7 @@ export const AppTabNavigator = TabNavigator(
     tabBarPosition: 'bottom',
     tabBarOptions: {
       showIcon: true,
-      activeTintColor: '#339999',
+      activeTintColor: '#39BFB7',
       style: {
         backgroundColor: '#FFF',
         borderTopWidth: 2,
@@ -171,6 +149,15 @@ export const AppStackNavigator = StackNavigator({
     }
   },
   Consult: {
-    screen: Consult
+    screen: Consult,
+    navigationOptions: {
+      title: '预约咨询'
+    }
+  },
+  Test: {
+    screen: Test,
+    navigationOptions: {
+      title: '测试详情'
+    }
   }
 });

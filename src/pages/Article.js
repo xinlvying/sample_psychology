@@ -13,6 +13,7 @@ import {
   ScrollView,
   StatusBar
 } from 'react-native';
+import showToast from '../utils/toast';
 
 import { ArticleCategoryNavigator } from '../components/navigators/AppNavigators';
 
@@ -21,46 +22,57 @@ import ArticleListItem from '../components/ArticleListItem';
 // 公共样式
 import { AppColors, AppSizes, AppFonts, AppCommonStyles } from '../style';
 
+// 引入API函数
+import Api from '../service/api';
+
 export default class Article extends Component {
   constructor(props) {
     super(props);
-    console.log(props.navigation.state.routeName);
     this.state = {
-      articleList: [
-        {
-          id: '1',
-          category: '文章',
-          title: '这是一篇文章！',
-          describe: '这是一篇文章！这是一篇文章！这是一篇文章！',
-          poster: 'https://jdxl-img.b0.upaiyun.com/post/8daaff107b2c477885b0d59af276a6de.jpeg',
-          author: '登山涉水',
-          authorImg: 'https://jdxl-img.b0.upaiyun.com/post/8daaff107b2c477885b0d59af276a6de.jpeg',
-          viewCount: 34567
-        },
-        {
-          id: '1',
-          category: '文章',
-          title: '这是一篇文章！',
-          describe: '这是一篇文章！这是一篇文章！这是一篇文章！',
-          poster: 'https://jdxl-img.b0.upaiyun.com/post/8daaff107b2c477885b0d59af276a6de.jpeg',
-          author: '登山涉水',
-          authorImg: 'https://jdxl-img.b0.upaiyun.com/post/8daaff107b2c477885b0d59af276a6de.jpeg',
-          viewCount: 34567
-        },
-      ]
+      categoryId: '',
+      articleList: []
     };
+  }
+
+  componentWillMount() {
+    const code = this.props.navigation.state.key;
+
+    Api.getSingleArticleCategory(code)
+      .then(res => {
+        if (res.data && res.data.length) {
+          this.setState({ categoryId: res.data[0]._id });
+          // 获取文章列表
+          Api.getArticleList(1, this.state.categoryId)
+            .then(res => {
+              if (res.data.data && res.data.data.length) {
+                this.setState({
+                  articleList: [...res.data.data]
+                });
+              } else showToast('暂无文章分类信息');
+            })
+            .catch(res => {
+              showToast(err)
+            })
+        } else showToast('暂无文章分类信息');
+      })
+      .catch(err => {
+        showToast(err)
+      })
   }
 
   render() {
     const { navigation } = this.props;
     const { articleList } = this.state;
+    if (!articleList.length) return null;
+    console.log(this.props.navigation.state);
+
     return (
       <View style={AppCommonStyles.appContainer}>
         <StatusBar
-          animated={true} //指定状态栏的变化是否应以动画形式呈现。目前支持这几种样式：backgroundColor, barStyle和hidden  
-          hidden={false}  //是否隐藏状态栏。  
-          backgroundColor={'#FFF'} //状态栏的背景色  
-          barStyle={'dark-content'} // enum('default', 'light-content', 'dark-content')   
+          animated={true}
+          hidden={false}
+          backgroundColor={'#FFF'}
+          barStyle={'dark-content'}
         />
         <ScrollView
           showsVerticalScrollIndicator={false}
