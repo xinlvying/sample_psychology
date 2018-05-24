@@ -28,6 +28,9 @@ import DropdownMenu from '../components/dropdownmenu/DropDownMenu';
 
 import ConsultantListItem from '../components/ConsultantListItem';
 
+// 引入API函数
+import Api from '../service/api';
+
 // 公共样式
 import { AppColors, AppSizes, AppFonts, AppCommonStyles } from '../style';
 
@@ -35,65 +38,61 @@ export default class Consult extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      consultantList: [
-        {
-          id: '1',
-          category: '文章',
-          title: '这是一篇文章！',
-          describe: '这是一篇文章！这是一篇文章！这是一篇文章！',
-          poster: '',
-          author: '登山涉水',
-          authorImg: '',
-          viewCount: 34567
-        },
-        {
-          id: '1',
-          category: '文章',
-          title: '这是一篇文章！',
-          describe: '这是一篇文章！这是一篇文章！这是一篇文章！',
-          poster: '',
-          author: '登山涉水',
-          authorImg: '',
-          viewCount: 34567
-        },
-        {
-          id: '1',
-          category: '文章',
-          title: '这是一篇文章！',
-          describe: '这是一篇文章！这是一篇文章！这是一篇文章！',
-          poster: '',
-          author: '登山涉水',
-          authorImg: '',
-          viewCount: 34567
-        },
-        {
-          id: '1',
-          category: '文章',
-          title: '这是一篇文章！',
-          describe: '这是一篇文章！这是一篇文章！这是一篇文章！',
-          poster: '',
-          author: '登山涉水',
-          authorImg: '',
-          viewCount: 34567
-        },
-        {
-          id: '1',
-          category: '文章',
-          title: '这是一篇文章！',
-          describe: '这是一篇文章！这是一篇文章！这是一篇文章！',
-          poster: '',
-          author: '登山涉水',
-          authorImg: '',
-          viewCount: 34567
-        },
-      ]
+      currentWeek: '',
+      filterWeek: '',
+      filterWeekday: '',
+      filterGender: '',
+      consultantList: [],
+      consultRecord: [],
+      isDone: false
     }
   }
 
+  componentDidMount() {
+    const now = new Date();
+    const today_date = now.getDate();
+    const weekDay = now.getDay() ? now.getDay() : 7;
+    let time;
+    time = new Date(now.setDate(today_date + 1)).toLocaleDateString();
+
+    const p1 = Api.getCurrentWeek()
+      .then(res => {
+        this.setState({ currentWeek: res.data.week, filterWeek: res.data.week });
+      })
+
+    const p2 = Api.getConsultantList()
+      .then(res => {
+        if (res.data && res.data.length) {
+          this.setState({ consultantList: [...res.data] });
+        } else {
+          showToast('暂无咨询师');
+          return false;
+        }
+      })
+
+    const p3 = Api.queryConsultRecordByTime(time)
+      .then(res => {
+        if (res.data && res.data.length) {
+          this.setState({ consultRecord: [...res.data] });
+        }
+      })
+
+    // let all = Promise.all([p1, p2, p3]);
+    // all.then(() => {
+    //   this.initConsultantStatus();
+    // })
+  }
+
   render() {
+    const { consultantList, consultRecord, currentWeek, filterWeek } = this.state;
+    let res = this.initConsultantStatus(consultantList, consultRecord, currentWeek, filterWeek);
+    const { list, isDone } = res;
+    if (!isDone) return null;
+
     const { navigation } = this.props;
-    const { consultantList } = this.state;
-    const data = [["第一周", "第二周"], ["全部", "星期一", "星期二", "星期三", "星期四", "星期五"], ["不限", "男", "女"]];
+    const data = [[`第${currentWeek}周`, `第${currentWeek + 1}周`], ["全部", "星期一", "星期二", "星期三", "星期四", "星期五"], ["不限", "男", "女"]];
+
+    console.log(this.state)
 
     return (
       <View style={AppCommonStyles.appContainer}>
@@ -128,7 +127,7 @@ export default class Consult extends Component {
               <TouchableHighlight
                 underlayColor="#eee"
                 style={styles.headerItem}
-                onPress={() => navigation.navigate('ArticleDetail')}>
+                onPress={() => navigation.navigate('Question')}>
                 <View>
                   <View style={styles.title}>
                     <Icon
@@ -149,27 +148,120 @@ export default class Consult extends Component {
               bgColor={'white'}
               tintColor={'#666666'}
               activityTintColor={'#39BFB7'}
-              handler={(selection, row) => {
-                console.log(selection, row)
-                showToast(data[selection][row])
-              }
-              }
+              handler={(selection, row) => { this.consultantFilter(selection, row, data) }}
               data={data}
             >
-              <FlatList
-                style={[AppCommonStyles.cardContainer, { marginTop: 0, elevation: 0, }]}
-                data={[...consultantList]}
-                renderItem={
-                  ({ item }) => <ConsultantListItem
-                    parentProps={this.props}
-                    item={item} />
-                }>
-              </FlatList>
+              {isDone ?
+                <FlatList
+                  style={[AppCommonStyles.cardContainer, { marginTop: 0, elevation: 0, }]}
+                  data={[...list]}
+                  renderItem={
+                    ({ item }) => <ConsultantListItem
+                      key={item.id}
+                      chooseWeek={filterWeek}
+                      currentWeek={currentWeek}
+                      parentProps={this.props}
+                      item={item} />
+                  }>
+                </FlatList>
+                : null}
             </DropdownMenu>
           </View>
+
         </View>
       </View >
     );
+  }
+
+  initConsultantStatus(consultantList, consultRecord, currentWeek, filterWeek) {
+    const now = new Date();
+    const weekDay = now.getDay() ? now.getDay() : 7;
+    let temp = [];
+
+    consultantList.length && consultantList.map((consultant, index) => {
+
+      if (filterWeek == currentWeek && consultant.onduty_day < weekDay) {
+        for (let [index, elem] of consultant.onduty_time.entries()) {
+          if (typeof (elem) == 'object')
+            consultant.onduty_time[index] = { time: elem.time, available: false, remark: '已过期' };
+          else
+            consultant.onduty_time[index] = { time: elem, available: false, remark: '已过期' };
+        }
+      } else if (filterWeek == currentWeek && consultant.onduty_day == weekDay) {
+        for (let [index, elem] of consultant.onduty_time.entries()) {
+          if (typeof (elem) == 'object')
+            consultant.onduty_time[index] = { time: elem.time, available: false, remark: '请至少提前一天预约' };
+          else
+            consultant.onduty_time[index] = { time: elem, available: false, remark: '请至少提前一天预约' };
+        }
+      } else {
+        for (let [index, elem] of consultant.onduty_time.entries()) {
+          if (typeof (elem) == 'object')
+            consultant.onduty_time[index] = { time: elem.time, available: true };
+          else
+            consultant.onduty_time[index] = { time: elem, available: true };
+        }
+      }
+
+      let reservations = consultRecord.filter(record => { record.consultant_id == consultant._id && record.consult_week == filterWeek });
+      if (reservations.length) {
+        reservations.map(reservation => {
+          for (let [index, elem] of consultant.onduty_time.entries()) {
+            if (elem.time == reservation.consult_time) {
+              consultant.onduty_time[index] = { time: reservation.consult_time, available: false, remark: '已预约' };
+            }
+          }
+        })
+      }
+
+      temp.push({ key: index.toString(), ...consultant });
+    })
+    consultantList = [...temp];
+    return { list: consultantList, isDone: true };
+  }
+
+  consultantFilter(selection, row, data) {
+    let querys = {};
+    switch (selection) {
+      case 0:
+        const { consultantList } = this.state;
+        let filterWeek = data[selection][row].substring(1, data[selection][row].length - 1)
+        this.setState({ consultantList: [...consultantList], filterWeek: filterWeek });
+        break;
+      case 1:
+        this.setState({ filterWeekday: row });
+        const { filterGender } = this.state
+        querys = filterGender ? { gender: filterGender } : {};
+        querys = row ? { ...querys, onduty_day: row } : { ...querys };
+        Api.getConsultantList(querys)
+          .then(res => {
+            if (res.data && res.data.length) {
+              this.setState({ consultantList: [...res.data] });
+            } else {
+              this.setState({ consultantList: [] });
+              showToast('暂无咨询师');
+              return false;
+            }
+          })
+        break;
+      case 2:
+        this.setState({ filterGender: row })
+        const { filterWeekday } = this.state
+        querys = filterWeekday ? { onduty_day: filterWeekday } : {};
+        querys = row ? { ...querys, gender: row } : { ...querys };
+
+        Api.getConsultantList(querys)
+          .then(res => {
+            if (res.data && res.data.length) {
+              this.setState({ consultantList: [...res.data] });
+            } else {
+              this.setState({ consultantList: [] });
+              showToast('暂无咨询师');
+              return false;
+            }
+          })
+        break;
+    }
   }
 }
 
