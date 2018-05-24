@@ -8,16 +8,24 @@ import Home from '../../pages/Home';
 import Article from '../../pages/Article';
 import Consult from '../../pages/Consult';
 import Test from '../../pages/Test';
+import Question from '../../pages/Question';
 
 import ArticleDetail from '../../pages/ArticleDetail';
+import Reservation from '../../pages/Reservation';
+import QuestionDetail from '../../pages/QuestionDetail';
+import SubmitQuestion from '../../pages/SubmitQuestion';
+import SubmitAnswer from '../../pages/SubmitAnswer';
 
 const articleTabs = [
-  { id: 1, title: '精选推荐', name: 'Recommend' },
+  // { id: 1, title: '精选推荐', name: 'Recommend' },
   { id: 2, title: '情绪压力', name: 'Emotion_Pressure' },
   { id: 3, title: '亲密关系', name: 'Love' },
   { id: 4, title: '性心理', name: 'Sex' },
+  { id: 5, title: '家庭关系', name: 'Family_Relationship' },
+  { id: 6, title: '行为问题', name: 'Behavior_Problem' },
   { id: 7, title: '人际关系', name: 'Relationship' },
-  { id: 8, title: '升学就业', name: 'StudyJob' }
+  { id: 8, title: '咨询小科普', name: 'Consult_Tips_Popularization' },
+  { id: 9, title: '个人成长', name: 'Personal_Development' }
 ]
 
 function setRouteConfigs(tabList) {
@@ -58,6 +66,7 @@ const TabNavigatorConfig = {
   }
 }
 
+// 文章分类导航菜单
 export const ArticleCategoryNavigator = TabNavigator(RouteConfigs, TabNavigatorConfig)
 
 // 底部tab栏菜单
@@ -111,6 +120,8 @@ export const AppTabNavigator = TabNavigator(
   },
   {
     tabBarComponent: TabBarBottom,
+    animationEnabled: true,
+    backBehavior: 'none', // 按 back 键是否跳转到第一个Tab(首页)， none 为不跳转 
     tabBarPosition: 'bottom',
     tabBarOptions: {
       showIcon: true,
@@ -137,10 +148,7 @@ export const AppStackNavigator = StackNavigator({
   TabNav: {
     screen: AppTabNavigator
   },
-  // 文章分类tab栏
-  ArticleCategoryNavigator: {
-    screen: Article
-  },
+
   // 文章详情页
   ArticleDetail: {
     screen: ArticleDetail,
@@ -148,16 +156,40 @@ export const AppStackNavigator = StackNavigator({
       title: '文章详情'
     }
   },
-  Consult: {
-    screen: Consult,
-    navigationOptions: {
-      title: '预约咨询'
-    }
-  },
   Test: {
     screen: Test,
     navigationOptions: {
       title: '测试详情'
+    }
+  },
+  Reservation: {
+    screen: Reservation,
+    navigationOptions: {
+      header: null
+    }
+  },
+  Question: {
+    screen: Question,
+    navigationOptions: {
+      title: '匿名问答'
+    }
+  },
+  QuestionDetail: {
+    screen: QuestionDetail,
+    navigationOptions: {
+      title: '问题详情'
+    }
+  },
+  SubmitQuestion: {
+    screen: SubmitQuestion,
+    navigationOptions: {
+      title: '说出你的心声'
+    }
+  },
+  SubmitAnswer: {
+    screen: SubmitAnswer,
+    navigationOptions: {
+      title: '发表你的看法'
     }
   }
 });

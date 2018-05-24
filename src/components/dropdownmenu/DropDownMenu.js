@@ -87,11 +87,11 @@ class DropdownMenu extends Component {
                 </TouchableOpacity>
               )
             }
-            <TouchableOpacity
+            {/* <TouchableOpacity
               style={{ flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end', height: 44 }}
               onPress={() => this.resetMenu()}>
               <Text style={{ margin: 10, width: 60, padding: 4, fontSize: 12, textAlign: 'center', borderRadius: 10, color: '#fff', backgroundColor: '#39BFB7' }}>重置</Text>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
           </ScrollView>
         </View>
       );

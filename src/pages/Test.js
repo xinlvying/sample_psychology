@@ -67,87 +67,87 @@ export default class Test extends Component {
             { des: '总是', value: 3 },
           ]
         },
-        // {
-        //   title: '我感觉呼吸困难（例如：气喘和透不过气来）',
-        //   options: [
-        //     { des: '从不', value: 0 },
-        //     { des: '有时', value: 1 },
-        //     { des: '经常', value: 2 },
-        //     { des: '总是', value: 3 },
-        //   ]
-        // },
-        // {
-        //   title: '我感到很难主动去开始工作',
-        //   options: [
-        //     { des: '从不', value: 0 },
-        //     { des: '有时', value: 1 },
-        //     { des: '经常', value: 2 },
-        //     { des: '总是', value: 3 },
-        //   ]
-        // },
-        // {
-        //   title: '我多事情往往做出过敏反应',
-        //   options: [
-        //     { des: '从不', value: 0 },
-        //     { des: '有时', value: 1 },
-        //     { des: '经常', value: 2 },
-        //     { des: '总是', value: 3 },
-        //   ]
-        // },
-        // {
-        //   title: '我感到颤抖（例如：手抖）',
-        //   options: [
-        //     { des: '从不', value: 0 },
-        //     { des: '有时', value: 1 },
-        //     { des: '经常', value: 2 },
-        //     { des: '总是', value: 3 },
-        //   ]
-        // },
-        // {
-        //   title: '我觉得自己对不久的将来没有什么可期盼的',
-        //   options: [
-        //     { des: '从不', value: 0 },
-        //     { des: '有时', value: 1 },
-        //     { des: '经常', value: 2 },
-        //     { des: '总是', value: 3 },
-        //   ]
-        // },
-        // {
-        //   title: '我觉得自己消耗了很多精力',
-        //   options: [
-        //     { des: '从不', value: 0 },
-        //     { des: '有时', value: 1 },
-        //     { des: '经常', value: 2 },
-        //     { des: '总是', value: 3 },
-        //   ]
-        // },
-        // {
-        //   title: '我担心一些可能让自己恐慌和出丑的场合',
-        //   options: [
-        //     { des: '从不', value: 0 },
-        //     { des: '有时', value: 1 },
-        //     { des: '经常', value: 2 },
-        //     { des: '总是', value: 3 },
-        //   ]
-        // },
-        // {
-        //   title: '我感到忐忑不安',
-        //   options: [
-        //     { des: '从不', value: 0 },
-        //     { des: '有时', value: 1 },
-        //     { des: '经常', value: 2 },
-        //     { des: '总是', value: 3 },
-        //   ]
-        // },
-        // {
-        //   title: '我感到十分沮丧',
-        //   options: [
-        //     { des: '从不', value: 0 },
-        //     { des: '有时', value: 1 },
-        //     { des: '经常', value: 2 },
-        //     { des: '总是', value: 3 },
-        //   ]
-        // },
+        {
+          title: '我感觉呼吸困难（例如：气喘和透不过气来）',
+          options: [
+            { des: '从不', value: 0 },
+            { des: '有时', value: 1 },
+            { des: '经常', value: 2 },
+            { des: '总是', value: 3 },
+          ]
+        },
+        {
+          title: '我感到很难主动去开始工作',
+          options: [
+            { des: '从不', value: 0 },
+            { des: '有时', value: 1 },
+            { des: '经常', value: 2 },
+            { des: '总是', value: 3 },
+          ]
+        },
+        {
+          title: '我多事情往往做出过敏反应',
+          options: [
+            { des: '从不', value: 0 },
+            { des: '有时', value: 1 },
+            { des: '经常', value: 2 },
+            { des: '总是', value: 3 },
+          ]
+        },
+        {
+          title: '我感到颤抖（例如：手抖）',
+          options: [
+            { des: '从不', value: 0 },
+            { des: '有时', value: 1 },
+            { des: '经常', value: 2 },
+            { des: '总是', value: 3 },
+          ]
+        },
+        {
+          title: '我觉得自己对不久的将来没有什么可期盼的',
+          options: [
+            { des: '从不', value: 0 },
+            { des: '有时', value: 1 },
+            { des: '经常', value: 2 },
+            { des: '总是', value: 3 },
+          ]
+        },
+        {
+          title: '我觉得自己消耗了很多精力',
+          options: [
+            { des: '从不', value: 0 },
+            { des: '有时', value: 1 },
+            { des: '经常', value: 2 },
+            { des: '总是', value: 3 },
+          ]
+        },
+        {
+          title: '我担心一些可能让自己恐慌和出丑的场合',
+          options: [
+            { des: '从不', value: 0 },
+            { des: '有时', value: 1 },
+            { des: '经常', value: 2 },
+            { des: '总是', value: 3 },
+          ]
+        },
+        {
+          title: '我感到忐忑不安',
+          options: [
+            { des: '从不', value: 0 },
+            { des: '有时', value: 1 },
+            { des: '经常', value: 2 },
+            { des: '总是', value: 3 },
+          ]
+        },
+        {
+          title: '我感到十分沮丧',
+          options: [
+            { des: '从不', value: 0 },
+            { des: '有时', value: 1 },
+            { des: '经常', value: 2 },
+            { des: '总是', value: 3 },
+          ]
+        },
       ]
     };
   }
@@ -194,7 +194,7 @@ export default class Test extends Component {
             {
               questionList.length ? questionList.map((question, index) => {
                 if (index == selectIndex)
-                  return <View key={index} style={[AppCommonStyles.cardContainer, { marginTop: 20 }]}>
+                  return <View key={index} style={[AppCommonStyles.cardContainer, { marginTop: 0 }]}>
                     <Text>请根据你的实际情况，选择最适合的选项</Text>
                     <Text style={{ marginTop: 20 }}>{question.title}</Text>
 
@@ -296,9 +296,10 @@ export default class Test extends Component {
     );
   }
 
+  // 题目切换
   onSelect(index, value) {
     let { selectIndex, progressingBarWidth, questionList, selectValues } = this.state;
-    showToast(selectIndex + 1);
+    // 回答最后一题时显示提交测试按钮
     if (selectIndex + 1 == questionList.length) {
       selectValues[selectIndex] = value;
       this.setState({

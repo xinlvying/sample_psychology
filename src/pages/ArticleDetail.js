@@ -8,6 +8,7 @@ import {
   Platform,
   Button,
   WebView,
+  TouchableOpacity,
   StatusBar
 } from 'react-native';
 import showToast from '../utils/toast';
@@ -24,8 +25,12 @@ import Api from '../service/api';
 export default class ArticleDetail extends Component {
   constructor(props) {
     super(props);
-    this.state = { articleDetail: {} };
+    this.state = {
+      articleDetail: {},
+      mark: 0
+    };
   }
+
   componentWillMount() {
     const articleId = this.props.navigation.state.params.articleId;
 
@@ -43,6 +48,12 @@ export default class ArticleDetail extends Component {
       .catch(err => {
         showToast(err);
       })
+  }
+
+
+  componentWillUnmount() {
+    const { mark } = this.state;
+    console.log(mark);
   }
 
   render() {
@@ -80,18 +91,66 @@ export default class ArticleDetail extends Component {
               </Markdown>
             </View>
 
-            {/* 文章页脚 */}
-            {/* <View style={styles.articleFooter}>
-          </View> */}
+            {/* 功能按钮组 */}
+            <View style={[AppCommonStyles.cardContainer, styles.buttonGroupContainer]}>
+              <TouchableOpacity
+                onPress={this.handleCollect}>
+                <View style={styles.boxContainer}>
+                  <View style={styles.btnImgContainer}>
+                    <Image style={styles.btnImg} source={require('../images/consult_icon.gif')} />
+                  </View>
+                  <Text style={styles.boxText}>收藏</Text>
+                </View>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                onPress={this.handleAppreciate}>
+                <View style={styles.boxContainer}>
+                  <View style={styles.btnImgContainer}>
+                    <Image style={styles.btnImg} source={require('../images/test_icon.gif')} />
+                  </View>
+                  <Text style={styles.boxText}>点赞</Text>
+                </View>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                onPress={this.notIntrested}>
+                <View style={styles.boxContainer}>
+                  <View style={styles.btnImgContainer}>
+                    <Image style={styles.btnImg} source={require('../images/reading_icon.gif')} />
+                  </View>
+                  <Text style={styles.boxText}>不感兴趣</Text>
+                </View>
+              </TouchableOpacity>
+            </View>
           </View>
 
-          {/* 相关文章推荐 */}
-          {/* <View style={styles.articleListContainer}>
-        </View> */}
         </ScrollView>
       </View>
     );
   }
+
+  // 收藏文章
+  handleCollect = () => {
+    let { mark } = this.state;
+    mark += 6;
+    this.setState({ mark: mark });
+  }
+
+  // 点赞文章
+  handleAppreciate = () => {
+    let { mark } = this.state;
+    mark += 4;
+    this.setState({ mark: mark });
+  }
+
+  // 不感兴趣
+  notIntrested = () => {
+    let { mark } = this.state;
+    mark -= 4;
+    this.setState({ mark: mark });
+  }
+
 }
 
 const styles = StyleSheet.create({
@@ -123,12 +182,50 @@ const styles = StyleSheet.create({
     marginTop: 30,
     // color: '#333'
   },
-  // articleFooter: {
 
-  // },
-  // articleListContainer: {
 
-  // }
+  // 功能按钮组
+  buttonGroupContainer: {
+    flex: 1,
+    flexDirection: "row",
+    flexWrap: "nowrap",
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 0,
+    // width: AppSizes.screen.width,
+  },
+  touchBox: {
+    width: AppSizes.container.widthThird,
+    height: 180,
+    backgroundColor: "#fff",
+  },
+  boxContainer: {
+    alignItems: "center",
+    justifyContent: "center",
+    marginTop: 20,
+    marginBottom: 20,
+    width: AppSizes.container.widthThird,
+  },
+  btnImgContainer: {
+    width: 40,
+    height: 40,
+    padding: 5,
+    marginBottom: 6,
+    borderWidth: 1,
+    borderColor: "#d9f4f4",
+    borderRadius: 20,
+  },
+  btnImg: {
+    width: 30,
+    height: 30,
+  },
+  boxText: {
+    width: AppSizes.container.widthThird,
+    fontSize: 12,
+    textAlign: "center",
+    color: "#6d707f",
+    backgroundColor: "transparent",
+  },
 });
 
 const markdownRules = {
@@ -137,8 +234,8 @@ const markdownRules = {
       {node.content}
     </Text>,
   image: (node, children, parent, styles) => {
-    const index = node.attributes.src.indexOf(':');
-    const imageSrc = 'https' + node.attributes.src.substring(index);
+    // const index = node.attributes.src.indexOf(':');
+    const imageSrc = `http:${node.attributes.src}`;
     console.log(imageSrc)
     return (
       <FitImage
