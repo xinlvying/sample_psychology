@@ -97,7 +97,7 @@ export default class ArticleDetail extends Component {
                 onPress={this.handleCollect}>
                 <View style={styles.boxContainer}>
                   <View style={styles.btnImgContainer}>
-                    <Image style={styles.btnImg} source={require('../images/consult_icon.gif')} />
+                    <Image style={styles.btnImg} source={require('../images/collection_icon.png')} />
                   </View>
                   <Text style={styles.boxText}>收藏</Text>
                 </View>
@@ -107,7 +107,7 @@ export default class ArticleDetail extends Component {
                 onPress={this.handleAppreciate}>
                 <View style={styles.boxContainer}>
                   <View style={styles.btnImgContainer}>
-                    <Image style={styles.btnImg} source={require('../images/test_icon.gif')} />
+                    <Image style={styles.btnImg} source={require('../images/appreciate_icon.png')} />
                   </View>
                   <Text style={styles.boxText}>点赞</Text>
                 </View>
@@ -117,7 +117,7 @@ export default class ArticleDetail extends Component {
                 onPress={this.notIntrested}>
                 <View style={styles.boxContainer}>
                   <View style={styles.btnImgContainer}>
-                    <Image style={styles.btnImg} source={require('../images/reading_icon.gif')} />
+                    <Image style={styles.btnImg} source={require('../images/not_intrested_icon.png')} />
                   </View>
                   <Text style={styles.boxText}>不感兴趣</Text>
                 </View>
@@ -135,6 +135,7 @@ export default class ArticleDetail extends Component {
     let { mark } = this.state;
     mark += 6;
     this.setState({ mark: mark });
+    showToast('收藏成功！');
   }
 
   // 点赞文章
@@ -211,8 +212,8 @@ const styles = StyleSheet.create({
     height: 40,
     padding: 5,
     marginBottom: 6,
-    borderWidth: 1,
-    borderColor: "#d9f4f4",
+    // borderWidth: 1,
+    // borderColor: "#d9f4f4",
     borderRadius: 20,
   },
   btnImg: {

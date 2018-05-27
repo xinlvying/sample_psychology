@@ -44,7 +44,7 @@ export default class ArticleListItem extends Component {
           </View>
           <View style={defaultStyles.articleInfo}>
             <View style={defaultStyles.authorWrapper}>
-              <Image style={defaultStyles.authorImg} source={{ uri: 'http://192.168.2.1:8000/img/upload_9fc093fcfe541096cd218da3c3d93e17.png' }} />
+              <Image style={defaultStyles.authorImg} source={{ uri: item.authorImg }} />
               <Text style={defaultStyles.articleInfoText}>{item.author}</Text>
             </View>
             <Text style={defaultStyles.articleInfoText}>{item.meta ? item.meta.views : ''}阅读·{item.category.name}</Text>

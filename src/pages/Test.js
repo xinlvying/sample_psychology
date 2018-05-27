@@ -33,7 +33,7 @@ export default class Test extends Component {
     super(props);
     this.state = {
       selectIndex: 0,
-      selectValues: {},
+      selectValues: [],
       progressingBarWidth: 0,
       resultsBarWidth: 0,
       isShowBtn: false,
@@ -41,6 +41,7 @@ export default class Test extends Component {
       testResults: { D: {}, A: {}, P: {} },
       questionList: [
         {
+          id: 1,
           title: '我觉得很难让自己安静下来',
           options: [
             { des: '从不', value: 0 },
@@ -50,6 +51,7 @@ export default class Test extends Component {
           ]
         },
         {
+          id: 2,
           title: '我感到口干舌燥',
           options: [
             { des: '从不', value: 0 },
@@ -59,6 +61,7 @@ export default class Test extends Component {
           ]
         },
         {
+          id: 3,
           title: '我好像一点都没有感觉到任何愉快、舒畅',
           options: [
             { des: '从不', value: 0 },
@@ -68,6 +71,7 @@ export default class Test extends Component {
           ]
         },
         {
+          id: 4,
           title: '我感觉呼吸困难（例如：气喘和透不过气来）',
           options: [
             { des: '从不', value: 0 },
@@ -77,6 +81,7 @@ export default class Test extends Component {
           ]
         },
         {
+          id: 5,
           title: '我感到很难主动去开始工作',
           options: [
             { des: '从不', value: 0 },
@@ -86,7 +91,8 @@ export default class Test extends Component {
           ]
         },
         {
-          title: '我多事情往往做出过敏反应',
+          id: 6,
+          title: '我对事情往往做出过敏反应',
           options: [
             { des: '从不', value: 0 },
             { des: '有时', value: 1 },
@@ -95,6 +101,7 @@ export default class Test extends Component {
           ]
         },
         {
+          id: 7,
           title: '我感到颤抖（例如：手抖）',
           options: [
             { des: '从不', value: 0 },
@@ -104,15 +111,7 @@ export default class Test extends Component {
           ]
         },
         {
-          title: '我觉得自己对不久的将来没有什么可期盼的',
-          options: [
-            { des: '从不', value: 0 },
-            { des: '有时', value: 1 },
-            { des: '经常', value: 2 },
-            { des: '总是', value: 3 },
-          ]
-        },
-        {
+          id: 8,
           title: '我觉得自己消耗了很多精力',
           options: [
             { des: '从不', value: 0 },
@@ -122,7 +121,8 @@ export default class Test extends Component {
           ]
         },
         {
-          title: '我担心一些可能让自己恐慌和出丑的场合',
+          id: 9,
+          title: ' 我担心一些可能让自己恐慌或出丑的场合',
           options: [
             { des: '从不', value: 0 },
             { des: '有时', value: 1 },
@@ -131,6 +131,17 @@ export default class Test extends Component {
           ]
         },
         {
+          id: 10,
+          title: '我觉得自己对不久的将来没有什么可期盼的',
+          options: [
+            { des: '从不', value: 0 },
+            { des: '有时', value: 1 },
+            { des: '经常', value: 2 },
+            { des: '总是', value: 3 },
+          ]
+        },
+        {
+          id: 11,
           title: '我感到忐忑不安',
           options: [
             { des: '从不', value: 0 },
@@ -140,7 +151,98 @@ export default class Test extends Component {
           ]
         },
         {
-          title: '我感到十分沮丧',
+          id: 12,
+          title: '我感到很难放松自己',
+          options: [
+            { des: '从不', value: 0 },
+            { des: '有时', value: 1 },
+            { des: '经常', value: 2 },
+            { des: '总是', value: 3 },
+          ]
+        },
+        {
+          id: 13,
+          title: '我感到忧郁沮丧',
+          options: [
+            { des: '从不', value: 0 },
+            { des: '有时', value: 1 },
+            { des: '经常', value: 2 },
+            { des: '总是', value: 3 },
+          ]
+        },
+        {
+          id: 14,
+          title: '我无法容忍任何阻碍我继续工作的事情',
+          options: [
+            { des: '从不', value: 0 },
+            { des: '有时', value: 1 },
+            { des: '经常', value: 2 },
+            { des: '总是', value: 3 },
+          ]
+        },
+        {
+          id: 15,
+          title: '我感到快要崩溃了',
+          options: [
+            { des: '从不', value: 0 },
+            { des: '有时', value: 1 },
+            { des: '经常', value: 2 },
+            { des: '总是', value: 3 },
+          ]
+        },
+        {
+          id: 16,
+          title: '我对任何事情都不能产生热情',
+          options: [
+            { des: '从不', value: 0 },
+            { des: '有时', value: 1 },
+            { des: '经常', value: 2 },
+            { des: '总是', value: 3 },
+          ]
+        },
+        {
+          id: 17,
+          title: '我觉得自己不怎么配做人',
+          options: [
+            { des: '从不', value: 0 },
+            { des: '有时', value: 1 },
+            { des: '经常', value: 2 },
+            { des: '总是', value: 3 },
+          ]
+        },
+        {
+          id: 18,
+          title: '我发觉自己很容易被触怒',
+          options: [
+            { des: '从不', value: 0 },
+            { des: '有时', value: 1 },
+            { des: '经常', value: 2 },
+            { des: '总是', value: 3 },
+          ]
+        },
+        {
+          id: 19,
+          title: '即使在没有明显的体力活动时，我也感到心律不正常',
+          options: [
+            { des: '从不', value: 0 },
+            { des: '有时', value: 1 },
+            { des: '经常', value: 2 },
+            { des: '总是', value: 3 },
+          ]
+        },
+        {
+          id: 20,
+          title: '我无缘无故地感到害怕',
+          options: [
+            { des: '从不', value: 0 },
+            { des: '有时', value: 1 },
+            { des: '经常', value: 2 },
+            { des: '总是', value: 3 },
+          ]
+        },
+        {
+          id: 21,
+          title: '我感到生命毫无意义',
           options: [
             { des: '从不', value: 0 },
             { des: '有时', value: 1 },
@@ -287,10 +389,10 @@ export default class Test extends Component {
                   onPress={() => navigation.navigate('TabNav')}>
                   <Text style={{ marginTop: 10, marginBottom: 40, height: 40, lineHeight: 40, textAlign: 'center', borderWidth: 1, borderColor: '#d2d2d2', borderRadius: 4, color: '#999' }}>返回主页</Text>
                 </TouchableOpacity>
-            </View>
+              </View>
             </View>
           </ScrollView> : null
-      }
+        }
 
       </View >
     );
@@ -345,7 +447,7 @@ export default class Test extends Component {
         case 15:
         case 16:
         case 20:
-          D = (D + selectValues[i]) * 2;
+          D = (D + selectValues[i]);
           break;
 
         case 1:
@@ -355,7 +457,7 @@ export default class Test extends Component {
         case 14:
         case 18:
         case 19:
-          A = (A + selectValues[i]) * 2;
+          A = (A + selectValues[i]);
           break;
 
         case 0:
@@ -365,13 +467,18 @@ export default class Test extends Component {
         case 11:
         case 13:
         case 17:
-          P = (P + selectValues[i]) * 2;
+          P = (P + selectValues[i]);
           break;
       }
     }
+    D = D * 2;
+    A = A * 2;
+    P = P * 2;
+
     tempObj.D['value'] = D;
     tempObj.A['value'] = A;
     tempObj.P['value'] = P;
+    console.log(D, P, A);
     if (D <= 9) {
       tempObj.D['label'] = '正常';
       tempObj.D['color'] = '#39BFB7';
@@ -382,7 +489,7 @@ export default class Test extends Component {
     }
     if (D >= 14 && D <= 20) {
       tempObj.D['label'] = '中度抑郁';
-      tempObj.D['color'] = '#F2D700';
+      tempObj.D['color'] = '#f2d700';
     }
     if (D >= 21 && D <= 27) {
       tempObj.D['label'] = '重度抑郁';
@@ -403,7 +510,7 @@ export default class Test extends Component {
     }
     if (A >= 10 && A <= 14) {
       tempObj.A['label'] = '中度焦虑';
-      tempObj.A['color'] = '#F2D700';
+      tempObj.A['color'] = '#f2d700';
     }
     if (A >= 15 && A <= 19) {
       tempObj.A['label'] = '重度焦虑';
@@ -424,7 +531,7 @@ export default class Test extends Component {
     }
     if (P >= 19 && P <= 25) {
       tempObj.P['label'] = '中度压力';
-      tempObj.P['color'] = '#F2P700';
+      tempObj.P['color'] = '#f2d700';
     }
     if (P >= 26 && P <= 33) {
       tempObj.P['label'] = '重度压力';

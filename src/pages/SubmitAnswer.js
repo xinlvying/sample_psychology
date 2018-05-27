@@ -58,7 +58,7 @@ export default class SubmitAnswer extends Component {
             onPress={() => {
               this.submitAnswer(!this.state.modalVisible)
             }}>
-            <Text style={{ height: 40, lineHeight: 40, textAlign: 'center', borderRadius: 4, color: '#fff', backgroundColor: '#129994' }}>发布问题</Text>
+            <Text style={{ height: 40, lineHeight: 40, textAlign: 'center', borderRadius: 4, color: '#fff', backgroundColor: '#129994' }}>发布回答</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -75,7 +75,7 @@ export default class SubmitAnswer extends Component {
     navigation.navigate('Question');
   }
 
-  // 提交问题
+  // 提交回答
   submitAnswer() {
     const { question, content } = this.state;
 
@@ -83,13 +83,14 @@ export default class SubmitAnswer extends Component {
       showToast('缺少问题ID或回答！');
       return false;
     }
+    this.setState({ modalVisible: true });
 
-    Api.addAnswer({ question, content })
-      .then(res => {
-        if (res.code == 0) {
-          this.setState({ modalVisible: true });
-        }
-      })
+    // Api.addAnswer({ question, content })
+    //   .then(res => {
+    //     if (res.code == 0) {
+    //       this.setState({ modalVisible: true });
+    //     }
+    //   })
   }
 }
 
