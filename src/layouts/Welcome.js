@@ -62,7 +62,7 @@ export default class Welcome extends Component {
       login_phone: '',
       sms_code: ''
     };
-    console.log(props);
+    // // console.log(props);
   }
 
   componentWillMount() {
@@ -96,10 +96,10 @@ export default class Welcome extends Component {
   render() {
     const { navigation } = this.props;
     const { timer, timerUnit, couldGetSms, isLogin, isDone, login_phone, skipTimer } = this.state;
-    // console.log(isLogin, isDone)
+    // // console.log(isLogin, isDone)
     if (!isDone) return false;
 
-    console.log(isDone, isLogin);
+    // // console.log(isDone, isLogin);
 
     return (<View style={AppCommonStyles.appContainer}>
       <View style={[AppCommonStyles.pageContainer, { justifyContent: 'center' }]}>
@@ -193,7 +193,7 @@ export default class Welcome extends Component {
     });
 
     this.countdownTimer && clearTimeout(this.countdownTimer);
-    // console.log(this.countdownTimer);
+    // // console.log(this.countdownTimer);
 
     this.setState({ isLogin: false });
   }
@@ -227,7 +227,7 @@ export default class Welcome extends Component {
   // 获取短信验证码
   getSms = () => {
     const { login_phone } = this.state;
-    console.log(login_phone);
+    // console.log(login_phone);
     Api.getSms({ login_phone })
       .then(res => {
         showToast('验证码已发送，请查收');

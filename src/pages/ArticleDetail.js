@@ -53,13 +53,13 @@ export default class ArticleDetail extends Component {
 
   componentWillUnmount() {
     const { mark } = this.state;
-    console.log(mark);
+    // console.log(mark);
   }
 
   render() {
     const { navigation } = this.props;
     const { articleDetail } = this.state;
-    // console.log(articleDetail);
+    // // console.log(articleDetail);
     if (!Object.keys(articleDetail).length) return null;
 
     return (
@@ -237,7 +237,7 @@ const markdownRules = {
   image: (node, children, parent, styles) => {
     // const index = node.attributes.src.indexOf(':');
     const imageSrc = `http:${node.attributes.src}`;
-    console.log(imageSrc)
+    // console.log(imageSrc)
     return (
       <FitImage
         resizeMode="contain"

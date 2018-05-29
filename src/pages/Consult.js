@@ -55,6 +55,14 @@ export default class Consult extends Component {
     let time;
     time = new Date(now.setDate(today_date + 1)).toLocaleDateString();
 
+    this.initConsultantList()
+      .then(res => {
+        // console.log(res);
+      })
+      .catch(err => {
+        console.log(err);
+      })
+
     const p1 = Api.getCurrentWeek()
       .then(res => {
         this.setState({ currentWeek: res.data.week, filterWeek: res.data.week });
@@ -92,7 +100,7 @@ export default class Consult extends Component {
     const { navigation } = this.props;
     const data = [[`第${currentWeek}周`, `第${currentWeek + 1}周`], ["全部", "星期一", "星期二", "星期三", "星期四", "星期五"], ["不限", "男", "女"]];
 
-    console.log(this.state)
+    // // console.log(this.state)
 
     return (
       <View style={AppCommonStyles.appContainer}>
@@ -171,6 +179,18 @@ export default class Consult extends Component {
         </View>
       </View >
     );
+  }
+
+  initConsultantList = async (week) => {
+    if (!week) {
+      const currentWeekRes = await Api.getCurrentWeek();
+
+      // if(!currentWeekRes.data)
+      week = currentWeekRes.data.week;
+    }
+    const consultantListRes = await Api.getConsultantList({ week });
+
+    return consultantListRes;
   }
 
   initConsultantStatus(consultantList, consultRecord, currentWeek, filterWeek) {
