@@ -236,9 +236,10 @@ export default class Reservation extends Component {
 
     Api.addConsultRecord(params)
       .then(res => {
+        console.log(res);
         if (res.code == 0) {
           this.setState({ modalVisible: true });
-        }
+        } else showToast(res.message);
       })
   }
 }

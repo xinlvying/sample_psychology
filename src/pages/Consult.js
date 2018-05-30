@@ -189,13 +189,13 @@ export default class Consult extends Component {
 
     switch (selection) {
       case 0:
-        let filterWeek = data[selection][row].substring(1, data[selection][row].length - 1);
-        this.setState({ filterWeek: filterWeek });
+        let selectedWeek = data[selection][row].substring(1, data[selection][row].length - 1);
+        this.setState({ filterWeek: selectedWeek });
 
         querys = filterGender ? { gender: filterGender } : {};
         querys = filterWeekday ? { ...querys, onduty_day: filterWeekday } : { ...querys };
 
-        this.initConsultantList(querys, filterWeek)
+        this.initConsultantList(querys, selectedWeek)
           .then(res => {
             this.setState({ consultantList: [...res], isDone: true })
           })
