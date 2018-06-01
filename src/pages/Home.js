@@ -33,7 +33,7 @@ export default class Home extends Component {
     // 获取轮播banner
     Api.getSwiperBanner(2)
       .then((res) => {
-        console.log(res.data)
+        // console.log(res.data)
         this.setState({
           bannerList: [...res.data]
         });
@@ -59,7 +59,7 @@ export default class Home extends Component {
   render() {
     const { navigation } = this.props;
     const { articleList, bannerList, recommendList } = this.state;
-    console.log(articleList);
+    // console.log(articleList);
     if (!bannerList.length || !recommendList.length || !articleList.length) return null;
 
     return (

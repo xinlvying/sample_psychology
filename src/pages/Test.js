@@ -265,7 +265,7 @@ export default class Test extends Component {
     const { navigation } = this.props;
     const { questionList, selectIndex, progressingBarWidth, isShowBtn, selectValues, testResults, isShowResult } = this.state;
     const { D, P, A } = testResults;
-    // console.log(articleDetail);
+    // // console.log(articleDetail);
     // if (!Object.keys(articleDetail).length) return null;
 
     return (
@@ -478,7 +478,7 @@ export default class Test extends Component {
     tempObj.D['value'] = D;
     tempObj.A['value'] = A;
     tempObj.P['value'] = P;
-    console.log(D, P, A);
+    // console.log(D, P, A);
     if (D <= 9) {
       tempObj.D['label'] = '正常';
       tempObj.D['color'] = '#39BFB7';
@@ -541,7 +541,7 @@ export default class Test extends Component {
       tempObj.P['label'] = '极端压力';
       tempObj.P['color'] = '#f25400';
     }
-    console.log(tempObj)
+    // console.log(tempObj)
 
     this.setState({
       isShowResult: true,

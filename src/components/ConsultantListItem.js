@@ -18,7 +18,7 @@ export default class ConsultantListItem extends Component {
   render() {
     const { navigation } = this.props.parentProps;
     const { item, chooseWeek, currentWeek } = this.props;
-    console.log(this.props);
+    // // console.log(this.props);
 
     return (
       <View style={defaultStyles.listItem}>

@@ -39,7 +39,7 @@ export default class QuestionDetail extends Component {
     Api.getQuestionDetail(questionId)
       .then(res => {
         const { data } = res;
-        console.log(Object.keys(data).length);
+        // console.log(Object.keys(data).length);
         if (Object.keys(data).length) {
           this.setState({
             questionDetail: { ...data },

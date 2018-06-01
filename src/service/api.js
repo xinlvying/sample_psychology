@@ -6,7 +6,7 @@ import showToast from '../utils/toast';
 
 // api
 // const baseApi = 'http://sxin.tech:8081/api/app/v1';
-const baseApi = 'http://192.168.56.1:8000/api/app/v1';
+const baseApi = 'http:/192.168.56.1:8000/api/app/v1';
 
 const fetchApi = (url, options = {}) => {
   return fetch(url, options)
@@ -51,7 +51,7 @@ export default class Api {
 
   // 获取轮播banner
   static getSwiperBanner(position) {
-    console.log(position)
+    // console.log(position)
     return fetchApi(`${baseApi}/banners/${position}`);
   }
 
@@ -59,7 +59,7 @@ export default class Api {
   static getArticleList(page, category = undefined) {
     const queryParams = page ? `?page=${page}` : '';
     category = category ? `/category/${category}` : ''
-    console.log(page, category, `${baseApi}/articles${category}${queryParams}`)
+    // console.log(page, category, `${baseApi}/articles${category}${queryParams}`)
     return fetchApi(`${baseApi}/articles${category}${queryParams}`);
   }
 

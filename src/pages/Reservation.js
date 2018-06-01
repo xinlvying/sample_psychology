@@ -33,7 +33,7 @@ export default class Reservation extends Component {
       chooseTime: chooseTime,
       consultantId: consultantId
     }
-    console.log(chooseWeek)
+    // console.log(chooseWeek)
   }
 
   render() {
@@ -189,13 +189,13 @@ export default class Reservation extends Component {
     const today_weekday = now.getDay() ? now.getDay() : now.getDay() + 7;
     const today_date = now.getDate();
     let consult_date, days;
-    console.log(this.state)
+    // console.log(this.state)
     if (this.state.chooseWeek == this.state.currentWeek) {
       days = parseInt(this.state.chooseWeekday) - today_weekday;
     } else {
       days = 7 - today_weekday + parseInt(this.state.chooseWeekday);
     }
-    console.log(days)
+    // console.log(days)
 
     consult_date = new Date(now.setDate(today_date + days)).toLocaleDateString();
     let params = {
@@ -236,9 +236,10 @@ export default class Reservation extends Component {
 
     Api.addConsultRecord(params)
       .then(res => {
+        console.log(res);
         if (res.code == 0) {
           this.setState({ modalVisible: true });
-        }
+        } else showToast(res.message);
       })
   }
 }

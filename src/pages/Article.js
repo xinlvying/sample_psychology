@@ -64,7 +64,7 @@ export default class Article extends Component {
     const { navigation } = this.props;
     const { articleList } = this.state;
     if (!articleList.length) return null;
-    console.log(this.props.navigation.state);
+    // console.log(this.props.navigation.state);
 
     return (
       <View style={AppCommonStyles.appContainer}>
