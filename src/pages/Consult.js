@@ -25,6 +25,7 @@ UIManager.setLayoutAnimationEnabledExperimental &&
 
 import Icon from 'react-native-vector-icons/Ionicons';
 import DropdownMenu from '../components/dropdownmenu/DropDownMenu';
+import Spinner from 'react-native-loading-spinner-overlay';
 
 import ConsultantListItem from '../components/ConsultantListItem';
 
@@ -67,7 +68,9 @@ export default class Consult extends Component {
 
   render() {
     const { consultantList, consultRecord, currentWeek, filterWeek, isDone } = this.state;
-    if (!isDone) return null;
+    if (!isDone) return (
+      <Spinner cancelable={true} visible={true} textContent={"拼命加载中..."} color={"rgba(51, 51, 51, 0.6)"} overlayColor={'transparent'} textStyle={{ color: 'rgba(51, 51, 51, 0.6)', fontSize: 12 }} />
+    );
 
     const { navigation } = this.props;
     const data = [[`第${currentWeek}周`, `第${currentWeek + 1}周`], ["全部", "星期一", "星期二", "星期三", "星期四", "星期五"], ["不限", "男", "女"]];
@@ -191,46 +194,27 @@ export default class Consult extends Component {
       case 0:
         let selectedWeek = data[selection][row].substring(1, data[selection][row].length - 1);
         this.setState({ filterWeek: selectedWeek });
-
         querys = filterGender ? { gender: filterGender } : {};
         querys = filterWeekday ? { ...querys, onduty_day: filterWeekday } : { ...querys };
-
         this.initConsultantList(querys, selectedWeek)
-          .then(res => {
-            this.setState({ consultantList: [...res], isDone: true })
-          })
-          .catch(err => {
-            console.log(err);
-            showToast(err);
-          })
+          .then(res => { this.setState({ consultantList: [...res], isDone: true }) })
+          .catch(err => { showToast(err); })
         break;
       case 1:
         this.setState({ filterWeekday: row });
         querys = filterGender ? { gender: filterGender } : {};
         querys = row ? { ...querys, onduty_day: row } : { ...querys };
-
         this.initConsultantList(querys, filterWeek)
-          .then(res => {
-            this.setState({ consultantList: [...res], isDone: true })
-          })
-          .catch(err => {
-            console.log(err);
-            showToast(err);
-          })
+          .then(res => { this.setState({ consultantList: [...res], isDone: true }) })
+          .catch(err => { showToast(err); })
         break;
       case 2:
         this.setState({ filterGender: row })
         querys = filterWeekday ? { onduty_day: filterWeekday } : {};
         querys = row ? { ...querys, gender: row } : { ...querys };
-
         this.initConsultantList(querys, filterWeek)
-          .then(res => {
-            this.setState({ consultantList: [...res], isDone: true })
-          })
-          .catch(err => {
-            console.log(err);
-            showToast(err);
-          })
+          .then(res => { this.setState({ consultantList: [...res], isDone: true }) })
+          .catch(err => { showToast(err); })
         break;
     }
   }

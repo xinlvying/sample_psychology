@@ -29,20 +29,65 @@ export default class Question extends Component {
     super(props);
     this.state = {
       questionList: [],
-      isDone: false
+      isDone: false,
+      isRefresh: false,
     };
   }
 
   componentDidMount() {
-    Api.queryQuestions()
-      .then(res => {
-        const { pagination, data } = res.data;
-        pagination.total && this.setState({
-          questionList: [...data],
-          isDone: true
-        });
-        !pagination.total && showToast('暂无问题')
-      })
+    this.initData()
+  }
+
+  initData() {
+    return new Promise((resolve, reject) => {
+      Api.queryQuestions()
+        .then(res => {
+          const { pagination, data } = res.data;
+          console.log(data)
+
+          pagination.total && this.setState({
+            questionList: [...data],
+            isDone: true
+          });
+          !pagination.total && showToast('暂无问题');
+          resolve()
+        }, err => {
+          reject(err);
+        })
+    })
+  }
+
+  /**
+  * 下啦刷新
+  * @private
+  */
+  _onRefresh = () => {
+    // 不处于 下拉刷新
+    if (!this.state.isRefresh) {
+      this.initData();
+    }
+  };
+
+  /**
+   * 空布局
+   */
+  _createEmptyView() {
+    return (
+      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+        <Text style={{ fontSize: 16 }}>
+          暂无文章列表，下拉刷新
+        </Text>
+      </View>
+    );
+  }
+
+  _createListItem = (item) => {
+    return (
+      <QuestionListItem
+        key={item.id}
+        parentProps={this.props}
+        item={item} />
+    );
   }
 
   render() {
@@ -50,6 +95,7 @@ export default class Question extends Component {
     const { navigation } = this.props;
 
     if (!isDone) return null;
+    console.log("ok")
 
     return (
       <View style={AppCommonStyles.appContainer}>
@@ -64,12 +110,11 @@ export default class Question extends Component {
           <View style={[AppCommonStyles.cardContainer, { elevation: 0 }]}>
             <FlatList
               data={[...questionList]}
+              refreshing={this.state.isRefresh}
+              ListEmptyComponent={this._createEmptyView}
+              onRefresh={() => this._onRefresh()}
               renderItem={
-                ({ item }) => <QuestionListItem
-                  key={item.id}
-                  parentProps={this.props}
-                  item={item} />
-              }>
+                ({ item }) => this._createListItem(item)}>
             </FlatList>
 
             <TouchableOpacity

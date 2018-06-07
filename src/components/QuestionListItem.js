@@ -19,16 +19,10 @@ export default class QuestionListItem extends Component {
     item: []                // 文章数据
   };
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      item: { ...props.item }
-    }
-  }
 
   render() {
-    const { parentProps } = this.props;
-    const { item } = this.state;
+    const { parentProps, item } = this.props;
+
 
     return (
       <TouchableOpacity

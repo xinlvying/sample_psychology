@@ -83,14 +83,13 @@ export default class SubmitAnswer extends Component {
       showToast('缺少问题ID或回答！');
       return false;
     }
-    this.setState({ modalVisible: true });
-
-    // Api.addAnswer({ question, content })
-    //   .then(res => {
-    //     if (res.code == 0) {
-    //       this.setState({ modalVisible: true });
-    //     }
-    //   })
+    
+    Api.addAnswer({ question, content })
+      .then(res => {
+        if (res.code == 0) {
+          this.setState({ modalVisible: true });
+        }
+      })
   }
 }
 

@@ -29,6 +29,7 @@ export default class ArticleListItem extends Component {
   render() {
     const { parentProps } = this.props;
     const { item } = this.state;
+    console.log("item")
 
     return (
       <TouchableOpacity
@@ -37,7 +38,7 @@ export default class ArticleListItem extends Component {
         <View>
           <View style={defaultStyles.article}>
             <View style={defaultStyles.articleTitleAndDes}>
-              <Text style={defaultStyles.articleTitle}>{item.title}</Text>
+              <Text numberOfLines={2} style={defaultStyles.articleTitle}>{item.title}</Text>
               <Text numberOfLines={2} style={defaultStyles.articleDes}>{item.description}</Text>
             </View>
             <Image style={defaultStyles.articlePoster} source={{ uri: item.thumb }} />

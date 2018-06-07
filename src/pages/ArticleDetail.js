@@ -13,8 +13,10 @@ import {
 } from 'react-native';
 import showToast from '../utils/toast';
 
+import Spinner from 'react-native-loading-spinner-overlay';
 import FitImage from "react-native-fit-image";
 import Markdown, { getUniqueID } from 'react-native-markdown-renderer';
+import HTMLView from 'react-native-htmlview';
 
 // 公共样式
 import { AppColors, AppSizes, AppFonts, AppCommonStyles } from '../style';
@@ -31,7 +33,7 @@ export default class ArticleDetail extends Component {
     };
   }
 
-  componentWillMount() {
+  componentDidMount() {
     const articleId = this.props.navigation.state.params.articleId;
 
     if (!articleId) {
@@ -39,10 +41,19 @@ export default class ArticleDetail extends Component {
       return false;
     }
 
+    storage.load({
+      key: 'loginInfo',
+    }).then(ret => {
+      this.setState({ userId: ret.userId })
+    }).catch(err => {
+      showToast(err);
+    })
+
     Api.getArticleDetail(articleId)
       .then(res => {
         if (Object.keys(res.data).length) {
-          this.setState({ articleDetail: res.data });
+          console.log(res)
+          this.setState({ articleDetail: { ...res.data } });
         } else showToast('暂无此文章详情');
       })
       .catch(err => {
@@ -52,15 +63,32 @@ export default class ArticleDetail extends Component {
 
 
   componentWillUnmount() {
-    const { mark } = this.state;
-    // console.log(mark);
+    let { mark, articleDetail, userId } = this.state;
+
+    mark == 0 ? mark += 1 : mark += 0;
+
+    let param = {
+      user: userId,
+      article: articleDetail._id,
+      rating: mark
+    };
+
+    Api.addReadingRecord(param)
+      .then(res => {
+        console.log(res);
+      })
+      .catch(err => {
+        console.log(err);
+      })
+
   }
 
   render() {
     const { navigation } = this.props;
     const { articleDetail } = this.state;
-    // // console.log(articleDetail);
-    if (!Object.keys(articleDetail).length) return null;
+    if (!Object.keys(articleDetail).length) return (
+      <Spinner cancelable={true} visible={true} textContent={"拼命加载中..."} color={"rgba(51, 51, 51, 0.6)"} overlayColor={'transparent'} textStyle={{ color: 'rgba(51, 51, 51, 0.6)', fontSize: 12 }} />
+    );
 
     return (
       <View style={AppCommonStyles.appContainer}>
@@ -77,13 +105,17 @@ export default class ArticleDetail extends Component {
             <View>
               <Text style={styles.articleTitle}>{articleDetail.title}</Text>
               <View style={styles.author}>
-                <Image style={styles.authorImg} source={{ uri: 'http://192.168.2.1:8000/img/upload_9fc093fcfe541096cd218da3c3d93e17.png' }} />
+                <Image style={styles.authorImg} source={{ uri: articleDetail.authorImg }} />
                 <Text style={styles.authorName}>{articleDetail.author}</Text>
               </View>
             </View>
 
             {/* 文章主体 */}
             <View style={styles.articleBody}>
+              {/* <HTMLView
+                value={articleDetail.content}
+              stylesheet={styles}
+              /> */}
               <Markdown
                 rules={markdownRules}
                 style={markdownStyles}>
@@ -132,24 +164,65 @@ export default class ArticleDetail extends Component {
 
   // 收藏文章
   handleCollect = () => {
-    let { mark } = this.state;
+    let { mark, articleDetail, userId, isCollecte } = this.state;
+
+    if (isCollecte) {
+      showToast('该文章已收藏！');
+      return false;
+    }
+
     mark += 6;
-    this.setState({ mark: mark });
-    showToast('收藏成功！');
+    this.setState({ mark: mark, isCollecte: true });
+    let param = {
+      user: userId,
+      article: articleDetail._id
+    };
+
+    Api.addCollection(param)
+      .then(res => {
+        showToast('收藏成功！');
+      })
+      .catch(err => {
+        showToast(err);
+      })
   }
 
   // 点赞文章
   handleAppreciate = () => {
-    let { mark } = this.state;
+    let { mark, isAppreciate } = this.state;
+    if (isAppreciate) {
+      showToast('已点赞该文章');
+      return false;
+    }
+
     mark += 4;
-    this.setState({ mark: mark });
+    this.setState({ mark: mark, isAppreciate: true });
+
+    showToast('点赞成功！');
   }
 
   // 不感兴趣
   notIntrested = () => {
-    let { mark } = this.state;
+    let { mark, articleDetail, userId, isDelete } = this.state;
+    if (isDelete) {
+      showToast('我们将尽量减少向您推送与本文相关的文章，如本文在您的收藏列表中，将被移除，请悉知');
+      return false;
+    }
     mark -= 4;
-    this.setState({ mark: mark });
+    this.setState({ mark: mark, isDelete: true });
+
+    let param = {
+      user: userId,
+      article: articleDetail._id
+    };
+
+    Api.deleteCollection(param)
+      .then(res => {
+        showToast('我们将尽量减少向您推送与本文相关的文章，如本文在您的收藏列表中，将被移除，请悉知');
+      })
+      .catch(err => {
+        showToast(err);
+      })
   }
 
 }
@@ -227,6 +300,15 @@ const styles = StyleSheet.create({
     color: "#6d707f",
     backgroundColor: "transparent",
   },
+
+
+  img: {
+    width: 200,
+    height: 200,
+  },
+  p: {
+    lineHeight: AppFonts.h2.lineHeight,
+  }
 });
 
 const markdownRules = {

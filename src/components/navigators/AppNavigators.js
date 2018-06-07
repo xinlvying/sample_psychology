@@ -17,7 +17,7 @@ import SubmitQuestion from '../../pages/SubmitQuestion';
 import SubmitAnswer from '../../pages/SubmitAnswer';
 
 const articleTabs = [
-  // { id: 1, title: '精选推荐', name: 'Recommend' },
+  { id: 1, title: '我的收藏', name: 'Collection' },
   { id: 2, title: '情绪压力', name: 'Emotion_Pressure' },
   { id: 3, title: '亲密关系', name: 'Love' },
   { id: 4, title: '性心理', name: 'Sex' },
@@ -121,7 +121,7 @@ export const AppTabNavigator = TabNavigator(
   {
     tabBarComponent: TabBarBottom,
     animationEnabled: true,
-    backBehavior: 'none', // 按 back 键是否跳转到第一个Tab(首页)， none 为不跳转 
+    // backBehavior: 'none', // 按 back 键是否跳转到第一个Tab(首页)， none 为不跳转 
     tabBarPosition: 'bottom',
     tabBarOptions: {
       showIcon: true,

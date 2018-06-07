@@ -52,12 +52,30 @@ export default class QuestionDetail extends Component {
       })
   }
 
+  fomartDate(date) {
+    let now = new Date();
+    let create_at = new Date(date);
+
+    let offset = now.getTime() - create_at.getTime();
+
+    if (offset < 60 * 1000) return `${Math.floor(offset / 1000)} 秒前`;
+    if (offset > 60 * 1000 && offset < 3600 * 1000) return `${Math.floor(offset / 60000)} 分钟前`;
+    if (offset > 3600 * 1000 && offset < 24 * 3600 * 1000) return `${Math.floor(offset / 1000 / 3600)} 小时前`
+    if (offset > 24 * 3600 * 1000) {
+      let year = create_at.getFullYear();
+      let month = parseInt(create_at.getMonth() + 1);
+      let day = create_at.getDate();
+      return `${year}年${month < 10 ? `0${month}` : month}月${day}日`;
+    }
+  }
+
   render() {
     const { navigation } = this.props;
     const { questionDetail, isDone } = this.state;
 
     if (!isDone) return null;
     const { answers } = questionDetail;
+    console.log(answers)
 
     return (
       <View style={AppCommonStyles.appContainer}>
@@ -84,7 +102,7 @@ export default class QuestionDetail extends Component {
                   return <View>
                     <View style={styles.answerInfoBox}>
                       <Text style={styles.info}>匿名天使</Text>
-                      <Text style={styles.info}>{item.create_time}</Text>
+                      <Text style={styles.info}>{this.fomartDate(item.create_at)}</Text>
                     </View>
                     <Text style={styles.content}>{item.content}</Text>
                   </View>

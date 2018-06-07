@@ -9,7 +9,6 @@ import {
   StatusBar
 } from 'react-native';
 import showToast from '../utils/toast';
-import { AsyncStorage } from 'react-native';
 
 
 // 公共样式
@@ -19,6 +18,8 @@ import { AppColors, AppFonts, AppSizes, AppCommonStyles } from '../style';
 import Api from '../service/api';
 
 import Storage from 'react-native-storage';
+import { AsyncStorage } from 'react-native';
+
 
 var storage = new Storage({
   size: 1000,
@@ -59,7 +60,6 @@ export default class Welcome extends Component {
       login_phone: '',
       isLogin: false,
       isDone: false,
-      login_phone: '',
       sms_code: ''
     };
     // // console.log(props);
@@ -69,7 +69,7 @@ export default class Welcome extends Component {
     const { navigation } = this.props;
 
     storage.load({
-      key: 'loginPhone',
+      key: 'loginInfo',
     }).then(ret => {
       this.countDownTimer();
 
@@ -77,7 +77,7 @@ export default class Welcome extends Component {
       this.setState({
         isLogin: ret ? true : false,
         isDone: true,
-        login_phone: ret.replace(reg, '$1****$2'),
+        login_phone: ret.loginPhone.replace(reg, '$1****$2'),
       });
 
     }).catch(err => {
@@ -107,7 +107,7 @@ export default class Welcome extends Component {
           hidden={isLogin ? true : false}
         />
 
-        <View style={AppCommonStyles.cardContainer}>
+        <View style={[AppCommonStyles.cardContainer, { marginTop: 0 }]}>
           <View style={[{ flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-around', height: 50, marginTop: 0 }]}>
             <Image style={{ width: 50, height: 50 }} source={require('@app/images/consult_icon.gif')}></Image>
             <Image style={{ width: 50, height: 50 }} source={require('@app/images/reading_icon.gif')}></Image>
@@ -189,7 +189,7 @@ export default class Welcome extends Component {
   // 注销
   handleLogout = () => {
     storage.remove({
-      key: 'loginPhone'
+      key: 'loginInfo'
     });
 
     this.countdownTimer && clearTimeout(this.countdownTimer);
@@ -253,10 +253,14 @@ export default class Welcome extends Component {
         const { code } = res;
         if (code == -1) showToast(res.debug);
         else {
+          // console.log(res);
           //存储用户手机
           storage.save({
-            key: 'loginPhone',
-            data: login_phone,
+            key: 'loginInfo',
+            data: {
+              loginPhone: login_phone,
+              userId: res.data._id
+            },
             expires: null
           });
 

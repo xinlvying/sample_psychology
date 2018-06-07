@@ -6,7 +6,7 @@ import showToast from '../utils/toast';
 
 // api
 // const baseApi = 'http://sxin.tech:8081/api/app/v1';
-const baseApi = 'http:/192.168.56.1:8000/api/app/v1';
+const baseApi = 'http:/100.11.100.65:8000/api/app/v1';
 
 const fetchApi = (url, options = {}) => {
   return fetch(url, options)
@@ -71,6 +71,47 @@ export default class Api {
   // 根据code获取文章类别
   static getSingleArticleCategory(code) {
     return fetchApi(`${baseApi}/categories/${code}`);
+  }
+
+  // 根据用户收藏获取文章类别
+  static getUserCollection(user) {
+    return fetchApi(`${baseApi}/articles/user/${user}`);
+  }
+
+  // 新增浏览记录
+  static addReadingRecord(readingRecord) {
+    return fetchApi(`${baseApi}/user-preferences/add-reading-record`, {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(readingRecord)
+    });
+  }
+
+   // 新增收藏
+   static addCollection(collection) {
+    return fetchApi(`${baseApi}/user-preferences/add-collection`, {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(collection)
+    });
+  }
+
+   // 删除收藏
+   static deleteCollection(collection) {
+    return fetchApi(`${baseApi}/user-preferences/delete-collection`, {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(collection)
+    });
   }
 
   // 获取文章详情
@@ -143,7 +184,7 @@ export default class Api {
 
   // 新增匿名问题
   static addAnswer(answer) {
-    return fetchApi(`${baseApi}/questions/add`, {
+    return fetchApi(`${baseApi}/answers/add`, {
       method: 'POST',
       headers: {
         'Accept': 'application/json',

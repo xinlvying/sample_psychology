@@ -8,6 +8,8 @@ import {
   StatusBar,
   TouchableOpacity
 } from 'react-native';
+import Spinner from 'react-native-loading-spinner-overlay';
+
 // 自定义轮播组件
 import BannerSwiper from '../components/BannerSwiper';
 import ArticleListItem from '../components/ArticleListItem';
@@ -28,39 +30,151 @@ export default class Home extends Component {
     }
   }
 
-  componentWillMount() {
+  componentDidMount() {
 
-    // 获取轮播banner
-    Api.getSwiperBanner(2)
-      .then((res) => {
-        // console.log(res.data)
+    storage.sync = {
+      // sync方法的名字必须和所存数据的key完全相同
+      // 方法接受的参数为一整个object，所有参数从object中解构取出
+      // 这里可以使用promise。或是使用普通回调函数，但需要调用resolve或reject。
+      bannerList(params) {
+        let { id, resolve, reject } = params;
+        Api.getSwiperBanner(2)
+          .then((res) => {
+            this.setState({
+              bannerList: [...res.data]
+            });
+            storage.save({
+              key: 'bannerList',
+              data: [...res.data],
+              expires: 1000 * 3600
+            });
+            resolve && resolve(res.data);
+          }).catch(err => {
+            reject && reject(new Error('data parse error'));
+          })
+      },
+
+      recommendList(params) {
+        let { id, resolve, reject } = params;
+        Api.getSwiperBanner(2)
+          .then(res => {
+            this.setState({
+              recommendList: [...res.data]
+            });
+            storage.save({
+              key: 'recommendList',
+              data: [...res.data],
+              expires: 1000 * 3600
+            });
+            resolve && resolve(res.data);
+          }).catch(err => {
+            reject && reject(new Error('data parse error'));
+          })
+      },
+
+      articleList(params) {
+        let { id, resolve, reject } = params;
+        Api.getArticleList(1)
+          .then(res => {
+            this.setState({
+              articleList: [...res.data.data]
+            });
+            storage.save({
+              key: 'articleList',
+              data: [...res.data.data],
+              expires: 1000 * 3600
+            });
+            resolve && resolve(res.data);
+          }).catch(err => {
+            reject && reject(new Error('data parse error'));
+          })
+      }
+    }
+    // 使用和load方法一样的参数读取批量数据，但是参数是以数组的方式提供。
+    // 会在需要时分别调用相应的sync方法，最后统一返回一个有序数组。
+    storage.getBatchData([
+      {
+        key: 'bannerList',
+        // autoSync(默认为true)意味着在没有找到数据或数据过期时自动调用相应的sync方法
+        autoSync: true,
+
+        // syncInBackground(默认为true)意味着如果数据过期，
+        // 在调用sync方法的同时先返回已经过期的数据。
+        // 设置为false的话，则等待sync方法提供的最新数据(当然会需要更多时间)。
+        syncInBackground: true,
+      },
+      {
+        key: 'recommendList',
+        autoSync: true,
+        syncInBackground: true,
+      },
+      {
+        key: 'articleList',
+        autoSync: true,
+        syncInBackground: true,
+      }
+    ])
+      .then(results => {
+        let [bannerList, recommendList, articleList] = results;
+        console.log(articleList, bannerList, recommendList)
+
         this.setState({
-          bannerList: [...res.data]
-        });
+          bannerList: [...bannerList],
+          recommendList: [...recommendList],
+          articleList: [...articleList]
+        })
       })
-
-    // 获取专题推荐banner
-    Api.getSwiperBanner(2)
-      .then(res => {
-        this.setState({
-          recommendList: [...res.data]
-        });
-      })
-
-    // 获取文章列表
-    Api.getArticleList(1)
-      .then(res => {
-        this.setState({
-          articleList: [...res.data.data]
-        });
+      .catch(err => {
+        console.log(err);
       })
   }
+
+  /**
+   * 空布局
+   */
+  _createEmptyView() {
+    return (
+      <View style={{ height: '100%', alignItems: 'center', justifyContent: 'center' }}>
+        <Text style={{ fontSize: 16 }}>
+          暂无列表数据，下啦刷新
+        </Text>
+      </View>
+    );
+  }
+
+  /**
+  * 创建头部布局
+  */
+  _createListHeader() {
+    return (
+      <View style={styles.headView}>
+        <Text style={{ color: 'white' }}>
+          头部布局
+        </Text>
+      </View>
+    )
+  }
+
+  /**
+   * 创建头部布局
+   */
+  _createListFooter() {
+    return (
+      <View style={styles.footerView}>
+        <Text style={{ color: 'white' }}>
+          底部底部
+        </Text>
+      </View>
+    )
+  }
+
 
   render() {
     const { navigation } = this.props;
     const { articleList, bannerList, recommendList } = this.state;
-    // console.log(articleList);
-    if (!bannerList.length || !recommendList.length || !articleList.length) return null;
+    if (!bannerList.length || !recommendList.length || !articleList.length) return (
+      <Spinner cancelable={true} visible={true} textContent={"拼命加载中..."} color={"rgba(51, 51, 51, 0.6)"} overlayColor={'transparent'} textStyle={{ color: 'rgba(51, 51, 51, 0.6)', fontSize: 12 }} />
+    );
 
     return (
       <View style={AppCommonStyles.appContainer}>
