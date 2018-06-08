@@ -45,31 +45,11 @@ export default class Article extends Component {
       })
   }
 
-  fetchCategoryCode() {
+  fetchArticleByCode() {
     return new Promise((resolve, reject) => {
       const code = this.props.navigation.state.key;
 
-      if (code == 'Collection') {
-        resolve();
-      } else {
-        Api.getSingleArticleCategory(code)
-          .then(res => {
-            console.log(res)
-            if (res.data && res.data.length) {
-              resolve(res.data[0]._id);
-            } else reject('暂无文章分类信息');
-          })
-          .catch(err => {
-            reject(err);
-          })
-      }
-    })
-  }
-
-  fetchArticleByCode(categoryId) {
-    return new Promise((resolve, reject) => {
-      const code = this.props.navigation.state.key;
-
+      console.log(code)
       if (code == 'Collection') {
         storage.load({
           key: 'loginInfo',
@@ -77,18 +57,17 @@ export default class Article extends Component {
           Api.getUserCollection(ret.userId)
             .then(res => {
               console.log(res);
-              this.setState({ articleList: res.data.articles });
+              this.setState({ articleList: [...res.data.articles] });
               resolve(res.data.articles);
             })
         }).catch(err => {
           reject(err);
         })
       } else {
-        Api.getArticleList(1, categoryId)
+        Api.getArticleList(1, code)
           .then(res => {
             console.log(res)
-            this.setState({ articleList: res.data.data });
-
+            this.setState({ articleList: [...res.data.data] });
             resolve(res.data.data);
           })
           .catch(err => {
@@ -100,8 +79,7 @@ export default class Article extends Component {
 
   async initData() {
     try {
-      const categoryId = await this.fetchCategoryCode();
-      const articles = await this.fetchArticleByCode(categoryId);
+      const articles = await this.fetchArticleByCode();
       return articles;
     } catch (e) {
       throw new Error(e);

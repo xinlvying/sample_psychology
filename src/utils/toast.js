@@ -6,7 +6,7 @@ import Toast from 'react-native-root-toast';
 
 const showToast = message => {
   Toast.show(message || '未知错误', {
-    duration: 4000,
+    duration: 500,
     position: -70,
     shadow: false,
     animation: true,

@@ -5,8 +5,8 @@
 import showToast from '../utils/toast';
 
 // api
-// const baseApi = 'http://sxin.tech:8081/api/app/v1';
-const baseApi = 'http:/100.11.100.65:8000/api/app/v1';
+const baseApi = 'http://sxin.tech:8000/api/app/v1';
+// const baseApi = 'http:/100.55.103.249:8000/api/app/v1';
 
 const fetchApi = (url, options = {}) => {
   return fetch(url, options)

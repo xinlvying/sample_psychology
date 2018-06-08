@@ -27,9 +27,9 @@ export default class ArticleListItem extends Component {
   }
 
   render() {
-    const { parentProps } = this.props;
-    const { item } = this.state;
-    console.log("item")
+    const { parentProps, item } = this.props;
+    // const { item } = this.state;
+    // console.log("item")
 
     return (
       <TouchableOpacity

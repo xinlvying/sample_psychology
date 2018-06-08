@@ -38,19 +38,17 @@ export default class Home extends Component {
       // 这里可以使用promise。或是使用普通回调函数，但需要调用resolve或reject。
       bannerList(params) {
         let { id, resolve, reject } = params;
-        Api.getSwiperBanner(2)
+        Api.getSwiperBanner(1)
           .then((res) => {
-            this.setState({
-              bannerList: [...res.data]
-            });
             storage.save({
               key: 'bannerList',
               data: [...res.data],
-              expires: 1000 * 3600
+              expires: 3
             });
             resolve && resolve(res.data);
           }).catch(err => {
-            reject && reject(new Error('data parse error'));
+            console.log(err);
+            reject && reject(new Error(err));
           })
       },
 
@@ -58,17 +56,16 @@ export default class Home extends Component {
         let { id, resolve, reject } = params;
         Api.getSwiperBanner(2)
           .then(res => {
-            this.setState({
-              recommendList: [...res.data]
-            });
             storage.save({
               key: 'recommendList',
               data: [...res.data],
-              expires: 1000 * 3600
+              expires: 3
             });
+            console.log(res);
             resolve && resolve(res.data);
           }).catch(err => {
-            reject && reject(new Error('data parse error'));
+            console.log(err);
+            reject && reject(new Error(err));
           })
       },
 
@@ -76,17 +73,15 @@ export default class Home extends Component {
         let { id, resolve, reject } = params;
         Api.getArticleList(1)
           .then(res => {
-            this.setState({
-              articleList: [...res.data.data]
-            });
             storage.save({
               key: 'articleList',
               data: [...res.data.data],
-              expires: 1000 * 3600
+              expires: 3
             });
             resolve && resolve(res.data);
           }).catch(err => {
-            reject && reject(new Error('data parse error'));
+            console.log(err);
+            reject && reject(new Error(err));
           })
       }
     }
@@ -172,6 +167,8 @@ export default class Home extends Component {
   render() {
     const { navigation } = this.props;
     const { articleList, bannerList, recommendList } = this.state;
+    console.log(articleList, bannerList, recommendList)
+
     if (!bannerList.length || !recommendList.length || !articleList.length) return (
       <Spinner cancelable={true} visible={true} textContent={"拼命加载中..."} color={"rgba(51, 51, 51, 0.6)"} overlayColor={'transparent'} textStyle={{ color: 'rgba(51, 51, 51, 0.6)', fontSize: 12 }} />
     );
